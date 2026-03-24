@@ -751,8 +751,31 @@ if (resetTextColorBtn) {
   });
 }
 
+// ===== Splash Screen =====
+function initSplash() {
+  const splash = document.getElementById("splashScreen");
+  if (!splash) return;
+
+  // Auto-dismiss after 3.2 seconds
+  const SPLASH_DURATION = 3200;
+
+  function hideSplash() {
+    splash.classList.add("splash-hide");
+    splash.addEventListener("animationend", () => {
+      splash.style.display = "none";
+    }, { once: true });
+  }
+
+  // Tap/click to dismiss early
+  splash.addEventListener("click", hideSplash, { once: true });
+
+  // Auto dismiss
+  setTimeout(hideSplash, SPLASH_DURATION);
+}
+
 // ===== Boot =====
 async function boot() {
+  initSplash();
   applyTheme();
   renderReciters();
   renderSurahList();
