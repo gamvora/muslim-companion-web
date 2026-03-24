@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Muslim Companion | رفيق المسلم</title>
+  <title>أنا مسلم | I AM A MUSLIM</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -12,26 +13,32 @@
 <body>
   <header class="topbar glass">
     <div class="brand">
-      <span class="logo">&#9770;</span>
+      <span class="logo">☪</span>
       <div>
-        <h1>Muslim Companion</h1>
-        <p>رفيقك الإسلامي الشامل</p>
+        <h1>أنا مسلم</h1>
+        <p>I AM A MUSLIM</p>
       </div>
     </div>
     <div class="topbar-actions">
-      <button id="themeToggle" class="btn ghost">&#127769;</button>
-      <button id="locateBtn" class="btn primary">&#128205; موقعي</button>
+      <button id="themeToggle" class="btn ghost">🌙</button>
+      <button id="locateBtn" class="btn primary">📍 موقعي</button>
     </div>
   </header>
 
   <section class="hero">
     <div class="hero-content">
+      <div class="hero-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
       <h2>اقرأ القرآن الكريم واستمع للتلاوة</h2>
       <p>موقع إسلامي متكامل: قرآن كريم، أذكار، مواقيت صلاة، قبلة، مسبحة رقمية</p>
       <div class="hero-actions">
-        <button class="btn primary nav-jump" data-jump="quran">&#128214; ابدأ بالقرآن</button>
-        <button class="btn nav-jump" data-jump="adhkar">&#129306; أذكار اليوم</button>
-        <button class="btn nav-jump" data-jump="prayers">&#128332; مواقيت الصلاة</button>
+        <button class="btn primary nav-jump" data-jump="quran">📖 ابدأ بالقرآن</button>
+        <button class="btn nav-jump" data-jump="adhkar">🤲 أذكار اليوم</button>
+        <button class="btn nav-jump" data-jump="prayers">🕌 مواقيت الصلاة</button>
+      </div>
+      <div class="hero-features">
+        <div class="hero-feature"><span>📖</span><b>قراءة مريحة</b><small>نص واضح وتتبع للآيات</small></div>
+        <div class="hero-feature"><span>🎧</span><b>تلاوات متعددة</b><small>اختيار القارئ بسهولة</small></div>
+        <div class="hero-feature"><span>🧭</span><b>خدمات يومية</b><small>أذكار، قبلة، ومواقيت الصلاة</small></div>
       </div>
     </div>
   </section>
@@ -39,18 +46,17 @@
   <main class="layout">
     <aside class="sidebar glass">
       <div class="sidebar-title">القائمة</div>
-      <button class="nav-btn active" data-tab="dashboard"><span class="nav-icon">&#127968;</span> الرئيسية</button>
-      <button class="nav-btn" data-tab="quran"><span class="nav-icon">&#128214;</span> القرآن الكريم</button>
-      <button class="nav-btn" data-tab="adhkar"><span class="nav-icon">&#129306;</span> الأذكار</button>
-      <button class="nav-btn" data-tab="prayers"><span class="nav-icon">&#128332;</span> مواقيت الصلاة</button>
-      <button class="nav-btn" data-tab="tasbeeh"><span class="nav-icon">&#128319;</span> المسبحة</button>
-      <button class="nav-btn" data-tab="qibla"><span class="nav-icon">&#129517;</span> القبلة</button>
-      <button class="nav-btn" data-tab="favorites"><span class="nav-icon">&#11088;</span> المفضلة</button>
-      <button class="nav-btn" data-tab="settings"><span class="nav-icon">&#9881;</span> الإعدادات</button>
+      <button class="nav-btn active" data-tab="dashboard"><span class="nav-icon">🏠</span> الرئيسية</button>
+      <button class="nav-btn" data-tab="quran"><span class="nav-icon">📖</span> القرآن الكريم</button>
+      <button class="nav-btn" data-tab="adhkar"><span class="nav-icon">🤲</span> الأذكار</button>
+      <button class="nav-btn" data-tab="prayers"><span class="nav-icon">🕌</span> مواقيت الصلاة</button>
+      <button class="nav-btn" data-tab="tasbeeh"><span class="nav-icon">📿</span> المسبحة</button>
+      <button class="nav-btn" data-tab="qibla"><span class="nav-icon">🧭</span> القبلة</button>
+      <button class="nav-btn" data-tab="favorites"><span class="nav-icon">⭐</span> المحفوظات</button>
+      <button class="nav-btn" data-tab="settings"><span class="nav-icon">⚙️</span> الإعدادات</button>
     </aside>
 
     <section class="content">
-
       <section id="dashboard" class="tab active">
         <div class="grid two">
           <article class="card">
@@ -58,14 +64,17 @@
             <div class="stats">
               <div class="stat-box"><span id="statSurahs">114</span><small>سورة</small></div>
               <div class="stat-box"><span id="statAdhkar">0</span><small>ذكر اليوم</small></div>
-              <div class="stat-box"><span id="statFav">0</span><small>مفضلة</small></div>
+              <div class="stat-box"><span id="statFav">0</span><small>المحفوظات</small></div>
             </div>
             <p class="muted" style="margin-top:12px">آخر قراءة: <strong id="lastRead">—</strong></p>
           </article>
-          <article class="card">
+          <article class="card daily-card">
             <h3>رسالة اليوم</h3>
             <div class="daily-msg"><span id="dailyMessage"></span></div>
             <p class="muted" style="margin-top:10px" id="lastReadText">لا توجد قراءة محفوظة</p>
+            <div class="row" style="margin-top:10px">
+              <button id="continueReadBtn" class="btn primary">📍 متابعة آخر قراءة</button>
+            </div>
           </article>
         </div>
       </section>
@@ -74,9 +83,7 @@
         <div class="card">
           <div class="row between" style="margin-bottom:14px">
             <h2>القرآن الكريم</h2>
-            <div class="row">
-              <input id="surahSearch" type="text" placeholder="ابحث عن سورة..." />
-            </div>
+            <input id="surahSearch" type="text" placeholder="ابحث عن سورة..." />
           </div>
           <div id="surahList" class="surah-grid"></div>
           <div id="quranLoading" class="muted"></div>
@@ -85,44 +92,64 @@
 
       <section id="adhkar" class="tab">
         <div class="card">
-          <div class="row between" style="margin-bottom:14px">
-            <h2>الأذكار</h2>
-            <select id="adhkarCategory"></select>
+          <div class="row between" style="margin-bottom:16px">
+            <h2>🤲 الأذكار</h2>
+            <div id="adhkarCategoryTabs" class="adhkar-cat-tabs"></div>
           </div>
-          <div id="adhkarList" class="list"></div>
+          <div class="dhikr-card-nav">
+            <div class="dhikr-card-main">
+              <div class="dhikr-card-counter" id="dhikrCounter">1 / 1</div>
+              <div class="dhikr-card-text" id="dhikrCardText">جاري التحميل...</div>
+              <div class="dhikr-card-desc" id="dhikrCardDesc"></div>
+              <div class="dhikr-card-repeat" id="dhikrCardRepeat"></div>
+            </div>
+            <div class="dhikr-nav-btns">
+              <button class="btn" id="dhikrPrevBtn">السابق</button>
+              <button class="btn dhikr-fav-btn" id="dhikrFavBtn">🤍 مفضلة</button>
+              <button class="btn primary" id="dhikrNextBtn">التالي</button>
+            </div>
+          </div>
           <div id="adhkarLoading" class="muted"></div>
         </div>
       </section>
 
       <section id="prayers" class="tab">
         <div class="card">
-          <div class="row between" style="margin-bottom:14px">
-            <h2>مواقيت الصلاة</h2>
-            <div class="row">
-              <input id="cityInput" type="text" placeholder="المدينة (مثال: Amman)" />
-              <input id="countryInput" type="text" placeholder="الدولة (مثال: Jordan)" />
-              <button id="loadPrayerByCity" class="btn primary">تحميل</button>
+          <div class="row between" style="margin-bottom:18px">
+            <h2>🕌 مواقيت الصلاة</h2>
+            <button id="locatePrayerBtn" class="btn primary">📍 تحديد موقعي</button>
+          </div>
+          <div id="prayerAutoMsg" class="daily-msg">⏳ جاري محاولة تحديد موقعك تلقائياً...</div>
+          <div id="prayerManualForm" style="display:none;margin-top:14px">
+            <div class="prayer-search-row">
+              <div class="prayer-field">
+                <label class="prayer-field-label">الدولة</label>
+                <input id="countryInput" type="text" class="prayer-input" placeholder="مثال: Saudi Arabia" />
+              </div>
+              <div class="prayer-field">
+                <label class="prayer-field-label">المدينة</label>
+                <input id="cityInput" type="text" class="prayer-input" placeholder="مثال: Riyadh" />
+              </div>
+              <button id="loadPrayerByCity" class="btn primary prayer-load-btn">تحميل</button>
             </div>
           </div>
-          <p id="prayerDate" class="muted"></p>
+          <p id="prayerDate" class="muted" style="margin-top:10px"></p>
           <div id="prayerList" class="list" style="margin-top:14px"></div>
-          <div id="prayerLoading" class="muted"></div>
+          <div id="prayerLoading" class="muted" style="margin-top:8px;text-align:center"></div>
         </div>
       </section>
 
       <section id="tasbeeh" class="tab">
-        <div class="card center">
-          <h2>المسبحة الرقمية</h2>
-          <select id="tasbeehType" style="margin-bottom:16px">
-            <option>سبحان الله</option>
-            <option>الحمد لله</option>
-            <option>الله أكبر</option>
-            <option>لا إله إلا الله</option>
-          </select>
-          <div id="tasbeehCount" class="count">0</div>
-          <div class="row center">
-            <button id="tasbeehTap" class="btn primary pulse" style="font-size:18px;padding:14px 32px">تسبيح</button>
-            <button id="tasbeehReset" class="btn">إعادة</button>
+        <div class="card">
+          <div class="row between" style="margin-bottom:16px">
+            <h2>📿 المسبحة الذكية</h2>
+            <button id="addCustomTasbeehBtn" class="btn">➕ إضافة ذكر</button>
+          </div>
+          <div id="tasbeehGrid" class="tasbeeh-grid"></div>
+          <div id="addCustomForm" class="row" style="display:none;margin-top:12px">
+            <input id="customTasbeehInput" type="text" placeholder="اكتب الذكر الجديد..." />
+            <button id="saveCustomTasbeehBtn" class="btn primary">حفظ</button>
+            <button id="cancelCustomTasbeehBtn" class="btn">إلغاء</button>
           </div>
         </div>
       </section>
@@ -132,7 +159,7 @@
           <h2>اتجاه القبلة</h2>
           <p class="muted">زاوية القبلة التقريبية من موقعك</p>
           <div class="compass-wrap">
-            <span class="compass">&#129517;</span>
+            <span class="compass">🧭</span>
             <div id="qiblaDirection" class="qibla-text">اضغط موقعي لتحديد الاتجاه</div>
           </div>
         </div>
@@ -140,27 +167,84 @@
 
       <section id="favorites" class="tab">
         <div class="card">
-          <h2>المفضلة</h2>
+          <div class="row between" style="margin-bottom:16px">
+            <h2>⭐ المحفوظات</h2>
+            <div class="fav-tabs">
+              <button class="fav-tab-btn active" data-favtype="all">الكل</button>
+              <button class="fav-tab-btn" data-favtype="surah">📖 السور</button>
+              <button class="fav-tab-btn" data-favtype="dhikr">🤲 الأذكار</button>
+            </div>
+          </div>
           <div id="favoritesList"></div>
         </div>
       </section>
 
       <section id="settings" class="tab">
         <div class="card">
-          <h2>الإعدادات</h2>
-          <label class="switch-row">
-            <span>الوضع الليلي</span>
-            <input id="darkSwitch" type="checkbox" />
-          </label>
-          <label class="switch-row">
-            <span>حجم خط القرآن</span>
-            <input id="fontSize2" type="range" min="18" max="42" value="28" />
-          </label>
+          <h2>⚙️ الإعدادات</h2>
+          <div class="settings-section">
+            <h3>🎨 لون الواجهة</h3>
+            <div class="theme-colors" id="themeColors">
+              <button class="theme-color-btn active" data-theme="green" title="أخضر إسلامي"></button>
+              <button class="theme-color-btn" data-theme="blue" title="سماوي"></button>
+              <button class="theme-color-btn" data-theme="maroon" title="عنابي"></button>
+              <button class="theme-color-btn" data-theme="purple" title="بنفسجي"></button>
+              <button class="theme-color-btn" data-theme="teal" title="زيتي"></button>
+              <button class="theme-color-btn" data-theme="gold" title="ذهبي"></button>
+            </div>
+          </div>
+          <div class="settings-section">
+            <label class="switch-row">
+              <span>🌙 الوضع الليلي</span>
+              <input id="darkSwitch" type="checkbox" />
+            </label>
+          </div>
+          <div class="settings-section">
+            <h3>🔤 حجم الخطوط</h3>
+            <div class="switch-row">
+              <span>خط الموقع العام</span>
+              <div class="font-control">
+                <button class="font-btn" id="siteFontDec">A-</button>
+                <span id="siteFontVal">16</span>px
+                <button class="font-btn" id="siteFontInc">A+</button>
+              </div>
+            </div>
+            <div class="switch-row">
+              <span>خط القرآن الكريم</span>
+              <div class="font-control">
+                <button class="font-btn" id="quranFontDec">A-</button>
+                <span id="quranFontVal">28</span>px
+                <button class="font-btn" id="quranFontInc">A+</button>
+              </div>
+            </div>
+          </div>
+          <div class="settings-section">
+            <h3>🎙️ القارئ الافتراضي</h3>
+            <select id="reciterSelect" style="width:100%;margin-top:8px"></select>
+          </div>
+          <div class="settings-section">
+            <h3>🖊️ لون النص</h3>
+            <div class="color-preview-wrap">
+              <div class="color-preview-box" id="textColorPreview">
+                <p class="preview-arabic">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+                <p class="preview-sample">هذا مثال على لون النص المختار في الوضع الحالي</p>
+              </div>
+              <div class="color-picker-row">
+                <label class="color-picker-label">اختر اللون:</label>
+                <input type="color" id="textColorPicker" value="#e8f5ee" class="color-picker-input" />
+                <button class="btn primary" id="saveTextColor">💾 حفظ</button>
+                <button class="btn" id="resetTextColor">↺ إعادة الضبط</button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-
     </section>
   </main>
+
+  <footer class="site-footer">
+    <p>تم تصميمه بـ ❤️ بواسطة <strong>Alaa</strong> &nbsp;|&nbsp; أنا مسلم &copy; 2026</p>
+  </footer>
 
   <script src="app.js"></script>
 </body>

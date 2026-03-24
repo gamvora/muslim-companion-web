@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>قارئ السورة | Muslim Companion</title>
+  <title>قارئ السورة | im muslim</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Amiri+Quran&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -15,7 +15,7 @@
     <div class="brand">
       <span class="logo">&#9770;</span>
       <div>
-        <h1 id="readerSurahTitle">قارئ السورة</h1>
+        <h1 id="readerSurahTitle">im muslim</h1>
         <p id="readerReciterName">جاري التحميل...</p>
       </div>
     </div>
@@ -27,24 +27,33 @@
 
   <main class="reader-page">
 
+    <!-- Controls Card -->
     <div class="reader-controls-card">
       <div class="reader-controls-top">
-        <div>
+        <div class="reader-title-block">
           <div class="reader-title" id="readerTitleFull">—</div>
-          <div style="margin-top:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <div class="reader-reciter-row">
             <span class="reciter-label">القارئ:</span>
             <select id="readerReciterSelect" class="reciter-select"></select>
           </div>
         </div>
         <div class="reader-btns">
-          <button id="readerPrevAyah" class="btn" title="الآية السابقة">&#8249; سابق</button>
-          <button id="readerPlayPause" class="btn primary" style="min-width:100px">&#9654; تشغيل</button>
-          <button id="readerNextAyah" class="btn" title="الآية التالية">تالي &#8250;</button>
-          <button id="readerAutoToggle" class="btn">&#8635; تلقائي</button>
-          <button id="readerMarkFollow" class="btn gold">&#128278; حفظ</button>
+          <button id="readerPrevSurah" class="btn" title="السورة السابقة">&#8249; السورة السابقة</button>
+          <button id="readerPlayPause" class="btn primary reader-play-btn">&#9654; تشغيل</button>
+          <button id="readerNextSurah" class="btn" title="السورة التالية">السورة التالية &#8250;</button>
+          <button id="readerMarkFollow" class="btn gold">&#11088; مفضلة</button>
         </div>
       </div>
 
+      <!-- Font Size row -->
+      <div class="reader-settings-row">
+        <div class="reader-setting-group">
+          <label class="setting-label">&#65039; حجم الخط <span id="fontSizeVal">30</span></label>
+          <input id="readerFontSize" type="range" min="22" max="48" value="30" class="font-range" />
+        </div>
+      </div>
+
+      <!-- Audio Player -->
       <div class="audio-wrap">
         <button id="audioPlayBtn" class="audio-play-btn">&#9654;</button>
         <div class="audio-progress-wrap">
@@ -59,24 +68,46 @@
       <audio id="readerAudio"></audio>
     </div>
 
-    <div class="full-text-card" id="fullTextCard" style="display:block">
-      <div class="tafsir-actions">
+    <!-- Ayah Focus Box (default view) -->
+    <div class="ayah-focus-card" id="singleAyahCard">
+      <div class="ayah-focus-header">
+        <div class="ayah-focus-badge">
+          <span id="singleAyahNum">آية —</span>
+        </div>
+        <button id="toggleFullText" class="btn toggle-view-btn">&#128214; عرض كامل</button>
+      </div>
+      <div id="singleAyahText" class="ayah-focus-text">بسم الله الرحمن الرحيم</div>
+      <div class="ayah-focus-actions">
+        <button id="showAyahTafsirFocusBtn" class="btn">&#128366; تفسير الآية</button>
+        <button id="openSurahTafsirFocusBtn" class="btn">&#128214; تفسير السورة</button>
+      </div>
+    </div>
+
+    <!-- Full Surah Text (hidden by default) -->
+    <div class="full-text-card" id="fullTextCard" style="display:none">
+      <div class="full-text-header">
         <h3>&#128214; نص السورة كاملاً</h3>
-        <button id="openSurahTafsirBtn" class="btn">&#128366; تفسير السورة كاملة</button>
+        <div class="row" style="gap:8px">
+          <button id="toggleFullText2" class="btn toggle-view-btn">&#127919; عرض مصغر</button>
+          <button id="openSurahTafsirBtn" class="btn">&#128366; تفسير السورة</button>
+        </div>
       </div>
       <div id="readerFullText" class="full-surah-text"></div>
     </div>
 
+    <!-- Ayah Tafsir action (shown when ayah clicked in full mode) -->
     <div id="ayahActionWrap" class="ayah-action-wrap" style="display:none">
-      <button id="showAyahTafsirBtn" class="btn">📖 تفسير الآية المحددة</button>
+      <button id="showAyahTafsirBtn" class="btn">&#128366; تفسير الآية المحددة</button>
     </div>
+
   </main>
 
+  <!-- Tafsir Modal -->
   <div id="tafsirModal" class="tafsir-modal" style="display:none">
     <div class="tafsir-modal-card">
       <div class="tafsir-modal-head">
         <h3 id="tafsirModalTitle">التفسير</h3>
-        <button id="tafsirModalCloseBtn" class="btn">✕</button>
+        <button id="tafsirModalCloseBtn" class="btn">&#10005;</button>
       </div>
       <div id="tafsirModalBody" class="tafsir-body"></div>
     </div>
