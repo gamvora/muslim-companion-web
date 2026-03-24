@@ -14,35 +14,99 @@
 
   <!-- ===== Splash Screen ===== -->
   <div id="splashScreen" class="splash-screen">
+    <!-- Background image layer -->
+    <div class="splash-bg-img"></div>
+    <!-- Dark overlay -->
+    <div class="splash-overlay"></div>
+
+    <!-- Stars -->
     <div class="splash-stars">
-      <span class="splash-star" style="--x:10%;--y:15%;--d:0s;--s:3px"></span>
-      <span class="splash-star" style="--x:25%;--y:8%;--d:.4s;--s:2px"></span>
-      <span class="splash-star" style="--x:40%;--y:20%;--d:.8s;--s:4px"></span>
-      <span class="splash-star" style="--x:60%;--y:5%;--d:.2s;--s:2px"></span>
-      <span class="splash-star" style="--x:75%;--y:18%;--d:.6s;--s:3px"></span>
-      <span class="splash-star" style="--x:88%;--y:10%;--d:1s;--s:2px"></span>
-      <span class="splash-star" style="--x:15%;--y:80%;--d:.3s;--s:3px"></span>
-      <span class="splash-star" style="--x:50%;--y:85%;--d:.7s;--s:2px"></span>
-      <span class="splash-star" style="--x:80%;--y:75%;--d:.5s;--s:4px"></span>
-      <span class="splash-star" style="--x:92%;--y:88%;--d:.9s;--s:2px"></span>
-      <span class="splash-star" style="--x:5%;--y:50%;--d:1.1s;--s:3px"></span>
-      <span class="splash-star" style="--x:95%;--y:45%;--d:.15s;--s:2px"></span>
+      <span class="splash-star" style="--x:8%;--y:10%;--d:0s;--s:3px"></span>
+      <span class="splash-star" style="--x:20%;--y:6%;--d:.4s;--s:2px"></span>
+      <span class="splash-star" style="--x:35%;--y:14%;--d:.8s;--s:4px"></span>
+      <span class="splash-star" style="--x:55%;--y:4%;--d:.2s;--s:2px"></span>
+      <span class="splash-star" style="--x:70%;--y:12%;--d:.6s;--s:3px"></span>
+      <span class="splash-star" style="--x:85%;--y:8%;--d:1s;--s:2px"></span>
+      <span class="splash-star" style="--x:92%;--y:18%;--d:.3s;--s:3px"></span>
+      <span class="splash-star" style="--x:5%;--y:30%;--d:.7s;--s:2px"></span>
+      <span class="splash-star" style="--x:95%;--y:35%;--d:.5s;--s:3px"></span>
+      <span class="splash-star" style="--x:15%;--y:22%;--d:.9s;--s:2px"></span>
+      <span class="splash-star" style="--x:78%;--y:25%;--d:1.1s;--s:4px"></span>
+      <span class="splash-star" style="--x:45%;--y:18%;--d:.15s;--s:2px"></span>
     </div>
-    <div class="splash-geo splash-geo-1"></div>
-    <div class="splash-geo splash-geo-2"></div>
-    <div class="splash-geo splash-geo-3"></div>
+
+    <!-- Crescent moon -->
+    <div class="splash-moon-wrap">
+      <div class="splash-moon-glow"></div>
+      <div class="splash-moon">🌙</div>
+    </div>
+
+    <!-- Main content -->
     <div class="splash-content">
-      <div class="splash-crescent">☪</div>
       <div class="splash-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
       <div class="splash-title">أنا مسلم</div>
-      <div class="splash-subtitle">I AM A MUSLIM</div>
+      <div class="splash-subtitle">I &nbsp; A M &nbsp; A &nbsp; M U S L I M</div>
       <div class="splash-tagline">رفيقك الإسلامي الشامل</div>
+      <div class="splash-divider"><span></span><span class="splash-divider-star">✦</span><span></span></div>
       <div class="splash-dots">
         <span></span><span></span><span></span>
       </div>
     </div>
+
+    <!-- Mosque silhouette SVG -->
+    <div class="splash-mosque-wrap">
+      <svg class="splash-mosque-svg" viewBox="0 0 1200 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+        <!-- Main dome -->
+        <ellipse cx="600" cy="160" rx="90" ry="85" fill="rgba(255,255,255,0.08)"/>
+        <path d="M510,160 Q510,80 600,75 Q690,80 690,160 Z" fill="rgba(255,255,255,0.12)"/>
+        <!-- Left dome -->
+        <path d="M370,180 Q370,120 420,115 Q470,120 470,180 Z" fill="rgba(255,255,255,0.09)"/>
+        <!-- Right dome -->
+        <path d="M730,180 Q730,120 780,115 Q830,120 830,180 Z" fill="rgba(255,255,255,0.09)"/>
+        <!-- Far left dome -->
+        <path d="M180,200 Q180,155 215,150 Q250,155 250,200 Z" fill="rgba(255,255,255,0.07)"/>
+        <!-- Far right dome -->
+        <path d="M950,200 Q950,155 985,150 Q1020,155 1020,200 Z" fill="rgba(255,255,255,0.07)"/>
+
+        <!-- Main minaret left -->
+        <rect x="340" y="60" width="18" height="140" fill="rgba(255,255,255,0.13)"/>
+        <polygon points="340,60 349,30 358,60" fill="rgba(255,255,255,0.18)"/>
+        <rect x="336" y="90" width="26" height="6" fill="rgba(255,255,255,0.15)"/>
+        <rect x="336" y="130" width="26" height="6" fill="rgba(255,255,255,0.15)"/>
+
+        <!-- Main minaret right -->
+        <rect x="842" y="60" width="18" height="140" fill="rgba(255,255,255,0.13)"/>
+        <polygon points="842,60 851,30 860,60" fill="rgba(255,255,255,0.18)"/>
+        <rect x="838" y="90" width="26" height="6" fill="rgba(255,255,255,0.15)"/>
+        <rect x="838" y="130" width="26" height="6" fill="rgba(255,255,255,0.15)"/>
+
+        <!-- Side minaret left -->
+        <rect x="148" y="90" width="14" height="120" fill="rgba(255,255,255,0.1)"/>
+        <polygon points="148,90 155,65 162,90" fill="rgba(255,255,255,0.14)"/>
+
+        <!-- Side minaret right -->
+        <rect x="1038" y="90" width="14" height="120" fill="rgba(255,255,255,0.1)"/>
+        <polygon points="1038,90 1045,65 1052,90" fill="rgba(255,255,255,0.14)"/>
+
+        <!-- Main building body -->
+        <rect x="100" y="200" width="1000" height="100" fill="rgba(255,255,255,0.07)"/>
+        <!-- Arched windows -->
+        <path d="M200,200 Q200,175 215,175 Q230,175 230,200 Z" fill="rgba(255,255,255,0.1)"/>
+        <path d="M270,200 Q270,175 285,175 Q300,175 300,200 Z" fill="rgba(255,255,255,0.1)"/>
+        <path d="M900,200 Q900,175 915,175 Q930,175 930,200 Z" fill="rgba(255,255,255,0.1)"/>
+        <path d="M970,200 Q970,175 985,175 Q1000,175 1000,200 Z" fill="rgba(255,255,255,0.1)"/>
+        <!-- Center arched entrance -->
+        <path d="M555,200 Q555,155 600,150 Q645,155 645,200 Z" fill="rgba(255,255,255,0.12)"/>
+
+        <!-- Ground glow -->
+        <rect x="0" y="295" width="1200" height="5" fill="rgba(255,255,255,0.05)"/>
+      </svg>
+    </div>
+
+    <!-- Bottom ayah -->
     <div class="splash-bottom">
       <div class="splash-ayah">﴿ وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ ﴾</div>
+      <div class="splash-tap-hint">اضغط للمتابعة</div>
     </div>
   </div>
 
