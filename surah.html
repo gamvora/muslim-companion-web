@@ -44,6 +44,7 @@
           <button id="readerNextSurah" class="btn" title="السورة التالية">السورة التالية &#8250;</button>
           <button id="readerFocusModeBtn" class="btn" title="وضع تركيز">🧘 وضع تركيز</button>
           <button id="readerMarkFollow" class="btn gold">&#11088; مفضلة</button>
+          <button id="openQuizBtn" class="btn quiz-btn">🧪 اختبار</button>
         </div>
       </div>
 
@@ -112,6 +113,90 @@
         <button id="tafsirModalCloseBtn" class="btn">&#10005;</button>
       </div>
       <div id="tafsirModalBody" class="tafsir-body"></div>
+    </div>
+  </div>
+
+  <!-- ===== Quiz Modal ===== -->
+  <div id="quizModal" class="quiz-modal" style="display:none">
+    <div class="quiz-modal-card">
+
+      <!-- Screen 1: Select Quiz Type -->
+      <div id="quizSelectScreen" class="quiz-screen">
+        <div class="quiz-modal-head">
+          <h2>🧪 اختبار السورة</h2>
+          <button id="quizCloseBtn" class="btn quiz-close-btn">✕</button>
+        </div>
+        <p class="quiz-surah-label" id="quizSurahName">سورة —</p>
+        <div class="quiz-type-cards">
+          <div class="quiz-type-card" id="startMemQuiz">
+            <div class="quiz-type-icon">📝</div>
+            <h3>اختبار الحفظ</h3>
+            <p>أكمل الآية · أكمل الفراغ · رقم الآية</p>
+          </div>
+          <div class="quiz-type-card" id="startTafsirQuiz">
+            <div class="quiz-type-icon">📖</div>
+            <h3>اختبار التفسير</h3>
+            <p>اختبر فهمك لمعاني الآيات الكريمة</p>
+          </div>
+        </div>
+        <div class="quiz-count-row">
+          <span class="quiz-count-label">عدد الأسئلة:</span>
+          <div class="quiz-count-btns">
+            <button class="quiz-count-btn active" data-count="5">5</button>
+            <button class="quiz-count-btn" data-count="10">10</button>
+            <button class="quiz-count-btn" data-count="15">15</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 2: Loading -->
+      <div id="quizLoadingScreen" class="quiz-screen" style="display:none">
+        <div class="quiz-loading">
+          <div class="quiz-loading-spinner"></div>
+          <p>جاري تحضير الأسئلة...</p>
+        </div>
+      </div>
+
+      <!-- Screen 3: Question -->
+      <div id="quizQuestionScreen" class="quiz-screen" style="display:none">
+        <div class="quiz-top-bar">
+          <div class="quiz-progress-wrap">
+            <div class="quiz-progress-bar">
+              <div class="quiz-progress-fill" id="quizProgressFill" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="quiz-stats-row">
+            <span id="quizQuestionNum" class="quiz-q-num">السؤال 1 / 10</span>
+            <span id="quizScoreDisplay" class="quiz-score-badge">✅ 0</span>
+          </div>
+        </div>
+        <div class="quiz-question-card">
+          <div class="quiz-question-type-badge" id="quizQuestionType">أكمل الآية</div>
+          <div class="quiz-question-text" id="quizQuestionText"></div>
+        </div>
+        <div class="quiz-choices" id="quizChoices"></div>
+        <div class="quiz-next-wrap" id="quizNextWrap" style="display:none">
+          <button id="quizNextBtn" class="btn primary quiz-next-btn">التالي ←</button>
+        </div>
+      </div>
+
+      <!-- Screen 4: Results -->
+      <div id="quizResultsScreen" class="quiz-screen" style="display:none">
+        <div class="quiz-results">
+          <div class="quiz-results-stars" id="quizResultsStars"></div>
+          <div class="quiz-results-circle">
+            <div class="quiz-results-score" id="quizResultsScore">0/0</div>
+            <div class="quiz-results-pct" id="quizResultsPct">0%</div>
+          </div>
+          <div class="quiz-results-msg" id="quizResultsMsg"></div>
+          <div class="quiz-results-breakdown" id="quizResultsBreakdown"></div>
+          <div class="quiz-results-btns">
+            <button id="quizRetryBtn" class="btn primary">🔄 إعادة الاختبار</button>
+            <button id="quizDoneBtn" class="btn">✕ إغلاق</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
