@@ -1,3 +1,4 @@
+\n', '"رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ". [البقرة - 201].\n', '\n', '\n', '\n', '\n', '\n', '\n', '
 /* ===== Splash Screen ===== */
 @keyframes splashFadeIn {
   from { opacity: 0; transform: translateY(24px); }
@@ -998,18 +999,34 @@ input[type="range"] {
   font-weight: 700;
   color: #fff;
 }
-.toggle-view-btn {
+/* Toggle view button inside green header → white style */
+.ayah-focus-header .toggle-view-btn {
   background: rgba(255,255,255,.15) !important;
   border-color: rgba(255,255,255,.3) !important;
   color: #fff !important;
   font-size: 13px !important;
   padding: 6px 14px !important;
 }
-.toggle-view-btn:hover {
+.ayah-focus-header .toggle-view-btn:hover {
   background: rgba(255,255,255,.28) !important;
   border-color: rgba(255,255,255,.5) !important;
   color: #fff !important;
   transform: translateY(-1px) !important;
+}
+
+/* Toggle view button inside full-text-header → normal visible style */
+.full-text-header .toggle-view-btn {
+  font-size: 13px;
+  padding: 6px 14px;
+  background: var(--card2);
+  border-color: var(--border);
+  color: var(--text);
+}
+.full-text-header .toggle-view-btn:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-1px);
 }
 .ayah-focus-text {
   font-size: var(--reader-font-size);
