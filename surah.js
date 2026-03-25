@@ -84,7 +84,8 @@ const el = {
   singleAyahCard: document.getElementById("singleAyahCard"),
   toggleFullText2: document.getElementById("toggleFullText2"),
   readerFocusModeBtn: document.getElementById("readerFocusModeBtn"),
-  readerRestartBtn: document.getElementById("readerRestartBtn")
+  readerRestartBtn: document.getElementById("readerRestartBtn"),
+  readerRepeatBtn: document.getElementById("readerRepeatBtn")
 };
 
 const tafsirCache = {
@@ -447,6 +448,21 @@ if (el.readerNextSurah) {
   });
 }
 
+// ===== Repeat Button (تكرار الآية) =====
+if (el.readerRepeatBtn) {
+  el.readerRepeatBtn.addEventListener("click", () => {
+    if (!el.readerAudio) return;
+    // Seek to start of current ayah and play
+    seekAudioToAyah(state.currentIdx);
+    el.readerAudio.play().catch(() => {});
+    updatePlayBtns(true);
+    // Visual feedback
+    const old = el.readerRepeatBtn.innerHTML;
+    el.readerRepeatBtn.innerHTML = "▶ جاري...";
+    setTimeout(() => { el.readerRepeatBtn.innerHTML = old; }, 900);
+  });
+}
+
 // ===== Restart Button =====
 if (el.readerRestartBtn) {
   el.readerRestartBtn.addEventListener("click", () => {
@@ -786,38 +802,23 @@ function genFillBlank(ayahIdx) {
   };
 }
 
-// Type 3: What's the Ayah Number?
-function genAyahNumber(ayahIdx) {
+// Type 3: What is the NEXT ayah? (ما الآية التي تليها؟)
+function genNextAyah(ayahIdx) {
+  // Need at least one ayah after this one
+  if (ayahIdx >= state.ayahs.length - 1) return null;
+
   const ayah = state.ayahs[ayahIdx];
-  const correctNum = ayah.numberInSurah;
+  const nextAyah = state.ayahs[ayahIdx + 1];
+  const correctText = nextAyah.text;
 
-  // Wrong numbers: other ayah numbers
-  const otherNums = state.ayahs
-    .filter((_, i) => i !== ayahIdx)
-    .map(a => String(a.numberInSurah));
-  const wrongs = quizShuffle(otherNums).slice(0, 3);
-  const choices = quizShuffle([String(correctNum), ...wrongs]);
-
-  return {
-    type: "ما رقم الآية؟",
-    question: `﴿ ${ayah.text} ﴾`,
-    correctAnswer: String(correctNum),
-    choices,
-    ayahNum: correctNum
-  };
-}
-
-// Type 4: Which is the Correct Ayah?
-function genCorrectAyah(ayahIdx) {
-  const ayah = state.ayahs[ayahIdx];
-  const correctText = ayah.text;
-
-  const wrongs = quizPickRandom(state.ayahs, 3, [ayahIdx]).map(a => a.text);
+  // Wrong answers: 3 other ayah texts (not current, not next)
+  const others = state.ayahs.filter((_, i) => i !== ayahIdx && i !== ayahIdx + 1);
+  const wrongs = quizShuffle(others).slice(0, 3).map(a => a.text);
   const choices = quizShuffle([correctText, ...wrongs]);
 
   return {
-    type: "الآية الصحيحة",
-    question: `الآية رقم ﴿${ayah.numberInSurah}﴾ من سورة ${SURAHS[surahNumber - 1] || ""}`,
+    type: "ما الآية التي تليها؟",
+    question: `﴿ ${ayah.text} ﴾`,
     correctAnswer: correctText,
     choices,
     ayahNum: ayah.numberInSurah
@@ -828,8 +829,8 @@ function genCorrectAyah(ayahIdx) {
 function buildMemQuestions(count) {
   if (state.ayahs.length < 4) return [];
   const questions = [];
-  // Removed genAyahNumber — we never ask for ayah numbers, only text
-  const types = [genCompleteAyah, genFillBlank, genCorrectAyah];
+  // Types: complete ayah, fill blank, next ayah — all text-based, no numbers
+  const types = [genCompleteAyah, genFillBlank, genNextAyah];
   const usedIdxs = new Set();
 
   let attempts = 0;

@@ -1042,6 +1042,25 @@ input[type="range"] {
   font-size: 13px;
 }
 
+/* ===== Repeat Button ===== */
+.repeat-btn {
+  background: linear-gradient(135deg, #0077b6, #005f8e) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(0,119,182,.28);
+  transition: all var(--transition);
+}
+.repeat-btn:hover {
+  background: linear-gradient(135deg, #005f8e, #004a70) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(0,119,182,.4) !important;
+}
+.repeat-btn:active {
+  transform: scale(0.97) !important;
+}
+
 /* ===== Full Text Card ===== */
 .full-text-card {
   background: var(--card);
