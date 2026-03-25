@@ -39,6 +39,7 @@ const state = {
   playing: false,
   dark: localStorage.getItem("dark") !== "0",
   fullTextVisible: false,
+  focusMode: localStorage.getItem("readerFocusMode") === "1",
   lastSyncedIdx: -1,
   ayahSegmentsSec: [],
   playbackRate: Number(localStorage.getItem("readerPlaybackRate") || 1),
@@ -81,7 +82,9 @@ const el = {
   readerFontSize: document.getElementById("readerFontSize"),
   fontSizeVal: document.getElementById("fontSizeVal"),
   singleAyahCard: document.getElementById("singleAyahCard"),
-  toggleFullText2: document.getElementById("toggleFullText2")
+  toggleFullText2: document.getElementById("toggleFullText2"),
+  readerFocusModeBtn: document.getElementById("readerFocusModeBtn"),
+  readerRestartBtn: document.getElementById("readerRestartBtn")
 };
 
 const tafsirCache = {
@@ -135,6 +138,15 @@ function applyTheme() {
   if (el.readerThemeToggle) el.readerThemeToggle.textContent = state.dark ? "☀️" : "🌙";
   applyColorThemeReader();
   applyTextColorReader();
+}
+
+function applyFocusMode() {
+  document.body.classList.toggle("reader-focus-mode", state.focusMode);
+  if (el.readerFocusModeBtn) {
+    el.readerFocusModeBtn.textContent = state.focusMode ? "🧘 إلغاء التركيز" : "🧘 وضع تركيز";
+    el.readerFocusModeBtn.classList.toggle("primary", state.focusMode);
+  }
+  localStorage.setItem("readerFocusMode", state.focusMode ? "1" : "0");
 }
 if (el.readerThemeToggle) {
   el.readerThemeToggle.addEventListener("click", () => {
@@ -398,6 +410,26 @@ if (el.readerNextSurah) {
     location.href = `surah.html?surah=${next}&reciter=${state.reciterIdx}`;
   });
 }
+
+// ===== Restart Button =====
+if (el.readerRestartBtn) {
+  el.readerRestartBtn.addEventListener("click", () => {
+    // Seek audio to beginning
+    if (el.readerAudio) {
+      el.readerAudio.currentTime = 0;
+      if (state.playing) {
+        el.readerAudio.play().catch(() => {});
+      }
+    }
+    // Reset text to ayah 1
+    setActiveAyah(0);
+    state.lastSyncedIdx = -1;
+    // Visual feedback
+    const old = el.readerRestartBtn.innerHTML;
+    el.readerRestartBtn.innerHTML = "✅ تمت الإعادة";
+    setTimeout(() => { el.readerRestartBtn.innerHTML = old; }, 1200);
+  });
+}
 // Font size slider
 function applyFontSize(size) {
   document.documentElement.style.setProperty("--reader-font-size", `${size}px`);
@@ -421,6 +453,13 @@ function handleToggleView() {
 }
 if (el.toggleFullText) el.toggleFullText.addEventListener("click", handleToggleView);
 if (el.toggleFullText2) el.toggleFullText2.addEventListener("click", handleToggleView);
+
+if (el.readerFocusModeBtn) {
+  el.readerFocusModeBtn.addEventListener("click", () => {
+    state.focusMode = !state.focusMode;
+    applyFocusMode();
+  });
+}
 
 if (el.readerMarkFollow) {
   el.readerMarkFollow.addEventListener("click", () => {
@@ -565,6 +604,7 @@ if (el.tafsirModal) {
 
 async function boot() {
   applyTheme();
+  applyFocusMode();
   renderReciters();
   renderHeader();
   applyFullTextToggle();
@@ -572,6 +612,25 @@ async function boot() {
   await loadSurahText();
   await loadAyahTimingSegments();
   loadContinuousAudio(false);
+
+  // If resuming from a specific ayah (initAyah > 1), seek audio to that ayah once ready
+  if (initAyah > 1 && state.ayahSegmentsSec.length > 0) {
+    const startIdx = Math.max(0, Math.min(state.ayahs.length - 1, initAyah - 1));
+    const doSeek = () => {
+      seekAudioToAyah(startIdx);
+      setActiveAyah(startIdx);
+    };
+    if (el.readerAudio) {
+      // If metadata already loaded, seek immediately; otherwise wait
+      if (el.readerAudio.readyState >= 1) {
+        doSeek();
+      } else {
+        el.readerAudio.addEventListener("loadedmetadata", doSeek, { once: true });
+        // Fallback: also try on canplay in case loadedmetadata already fired
+        el.readerAudio.addEventListener("canplay", doSeek, { once: true });
+      }
+    }
+  }
 }
 
 boot();
