@@ -694,6 +694,7 @@ const quizEl = {
   startTafsir:    document.getElementById("startTafsirQuiz"),
   retryBtn:       document.getElementById("quizRetryBtn"),
   doneBtn:        document.getElementById("quizDoneBtn"),
+  endBtn:         document.getElementById("quizEndBtn"),
   countBtns:      document.querySelectorAll(".quiz-count-btn")
 };
 
@@ -1132,6 +1133,13 @@ if (quizEl.startTafsir) quizEl.startTafsir.addEventListener("click", () => quizS
 if (quizEl.nextBtn) quizEl.nextBtn.addEventListener("click", quizNextQuestion);
 if (quizEl.retryBtn) quizEl.retryBtn.addEventListener("click", () => quizStart(quizState.type));
 if (quizEl.doneBtn) quizEl.doneBtn.addEventListener("click", quizClose);
+if (quizEl.endBtn) {
+  quizEl.endBtn.addEventListener("click", () => {
+    // Show results with current score so far
+    quizState.questions = quizState.questions.slice(0, quizState.currentQ + (quizState.answered ? 1 : 0));
+    quizShowResults();
+  });
+}
 
 // Count buttons
 quizEl.countBtns.forEach(btn => {
