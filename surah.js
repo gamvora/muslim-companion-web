@@ -230,6 +230,17 @@ function setActiveAyah(idx) {
       activeSpan.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }
+
+  // ===== Auto-save progress =====
+  // Save current position automatically so "متابعة آخر قراءة" always resumes from here
+  try {
+    localStorage.setItem("lastRead", JSON.stringify({
+      number: surahNumber,
+      name: SURAHS[surahNumber - 1] || `سورة ${surahNumber}`,
+      ayah: ayah.numberInSurah,
+      reciterIdx: state.reciterIdx
+    }));
+  } catch (_) {}
 }
 
 function updatePlayBtns(playing) {
