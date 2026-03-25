@@ -172,6 +172,7 @@ const state = {
   adhkarData: null,
   currentReciterIdx: Number(localStorage.getItem("currentReciterIdx") || 0),
   currentDhikrIdx: 0,
+  wird: parseJsonSafe("dailyWird", { date: "", done: 0, target: 20 }),
 };
 
 function save() {
@@ -235,6 +236,17 @@ const el = {
   quranFontDec: document.getElementById("quranFontDec"),
   quranFontInc: document.getElementById("quranFontInc"),
   quranFontVal: document.getElementById("quranFontVal"),
+
+  prayerReminderBanner: document.getElementById("prayerReminderBanner"),
+  wirdTargetLabel: document.getElementById("wirdTargetLabel"),
+  wirdProgressFill: document.getElementById("wirdProgressFill"),
+  wirdProgressText: document.getElementById("wirdProgressText"),
+  wirdProgressPercent: document.getElementById("wirdProgressPercent"),
+  wirdAddOneBtn: document.getElementById("wirdAddOneBtn"),
+  wirdAddFiveBtn: document.getElementById("wirdAddFiveBtn"),
+  wirdResetBtn: document.getElementById("wirdResetBtn"),
+  quickAdhkarList: document.getElementById("quickAdhkarList"),
+  openAdhkarTabBtn: document.getElementById("openAdhkarTabBtn"),
 };
 
 // ===== Tab Navigation =====
@@ -327,6 +339,99 @@ if (el.quranFontDec) el.quranFontDec.addEventListener("click", () => { state.qur
 if (el.quranFontInc) el.quranFontInc.addEventListener("click", () => { state.quranFont = Math.min(48, state.quranFont + 2); save(); applySiteFont(); });
 
 // ===== Header Stats =====
+function ensureWirdDate() {
+  const today = new Date().toISOString().slice(0, 10);
+  if (state.wird.date !== today) {
+    state.wird.date = today;
+    state.wird.done = 0;
+    if (!state.wird.target || state.wird.target < 1) state.wird.target = 20;
+    localStorage.setItem("dailyWird", JSON.stringify(state.wird));
+  }
+}
+
+function renderWirdCard() {
+  ensureWirdDate();
+  const done = Math.max(0, Number(state.wird.done || 0));
+  const target = Math.max(1, Number(state.wird.target || 20));
+  const pct = Math.min(100, Math.round((done / target) * 100));
+  if (el.wirdTargetLabel) el.wirdTargetLabel.textContent = `الهدف: ${target} آية`;
+  if (el.wirdProgressFill) el.wirdProgressFill.style.width = `${pct}%`;
+  if (el.wirdProgressText) el.wirdProgressText.textContent = `${done} / ${target} آية`;
+  if (el.wirdProgressPercent) el.wirdProgressPercent.textContent = `${pct}%`;
+}
+
+function renderQuickAdhkar() {
+  if (!el.quickAdhkarList) return;
+  const favDhikr = state.favorites.filter(f => f.type === "dhikr").slice(0, 3);
+  if (!favDhikr.length) {
+    el.quickAdhkarList.innerHTML = `<div class="muted">لا توجد أذكار مفضلة بعد. أضف من قسم الأذكار.</div>`;
+    return;
+  }
+  el.quickAdhkarList.innerHTML = favDhikr.map((d) => `
+    <div class="quick-adhkar-item">
+      <div class="quick-adhkar-text">${escapeHtml((d.text || "").slice(0, 140))}${(d.text || "").length > 140 ? "..." : ""}</div>
+      <div class="quick-adhkar-meta">${escapeHtml(d.category || "ذكر")} • التكرار: ${d.repeat || 1}</div>
+      <div class="quick-adhkar-actions">
+        <button class="btn" onclick="copyQuickDhikr('${escapeHtml((d.text || "").replace(/'/g, "\\'"))}')">نسخ</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+window.copyQuickDhikr = async function (text) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {}
+};
+
+function toMinutesFromMidnight(t) {
+  const clean = cleanTime(t);
+  const parts = clean.split(":");
+  if (parts.length < 2) return null;
+  const h = Number(parts[0]);
+  const m = Number(parts[1]);
+  if (!Number.isFinite(h) || !Number.isFinite(m)) return null;
+  return h * 60 + m;
+}
+
+function updatePrayerReminderFromTimings(timings) {
+  if (!el.prayerReminderBanner || !timings) return;
+  const schedule = [
+    { key: "Fajr", name: "الفجر" },
+    { key: "Dhuhr", name: "الظهر" },
+    { key: "Asr", name: "العصر" },
+    { key: "Maghrib", name: "المغرب" },
+    { key: "Isha", name: "العشاء" }
+  ].map(p => ({ ...p, min: toMinutesFromMidnight(timings[p.key]) }))
+   .filter(p => p.min !== null);
+
+  if (!schedule.length) return;
+
+  const now = new Date();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+
+  let next = schedule.find(p => p.min > nowMin);
+  let diff = 0;
+
+  if (!next) {
+    next = schedule[0];
+    diff = (24 * 60 - nowMin) + next.min;
+  } else {
+    diff = next.min - nowMin;
+  }
+
+  const hh = Math.floor(diff / 60);
+  const mm = diff % 60;
+  const remain = hh > 0 ? `${hh}س ${mm}د` : `${mm}د`;
+
+  let prefix = "⏳";
+  if (diff <= 10) prefix = "🔔";
+  if (diff <= 2) prefix = "🕌";
+
+  el.prayerReminderBanner.style.display = "";
+  el.prayerReminderBanner.textContent = `${prefix} الصلاة القادمة: ${next.name} بعد ${remain}`;
+}
+
 function updateHeaderStats() {
   if (el.statSurahs) el.statSurahs.textContent = "114";
   const totalTasbeeh = Object.values(state.tasbeehCounts).reduce((a, b) => a + b, 0);
@@ -365,6 +470,7 @@ function renderSurahList() {
       <span class="surah-open">&#8594;</span>
     </div>`;
   }).join("");
+  renderQuickAdhkar();
 }
 function openSurah(n) { window.location.href = `surah.html?surah=${n}&reciter=${state.currentReciterIdx}`; }
 window.openSurah = openSurah;
@@ -504,6 +610,7 @@ function renderPrayersData(data, cityLabel) {
   if (el.prayerList) el.prayerList.innerHTML = rows.map(([n,v,icon]) =>
     `<div class="prayer-item"><span class="prayer-name">${icon} ${n}</span><span class="prayer-time">${v}</span></div>`
   ).join("");
+  updatePrayerReminderFromTimings(t);
 }
 
 async function autoLocatePrayer() {
@@ -721,6 +828,35 @@ if (continueReadBtn) {
   });
 }
 
+if (el.wirdAddOneBtn) {
+  el.wirdAddOneBtn.addEventListener("click", () => {
+    ensureWirdDate();
+    state.wird.done += 1;
+    localStorage.setItem("dailyWird", JSON.stringify(state.wird));
+    renderWirdCard();
+  });
+}
+if (el.wirdAddFiveBtn) {
+  el.wirdAddFiveBtn.addEventListener("click", () => {
+    ensureWirdDate();
+    state.wird.done += 5;
+    localStorage.setItem("dailyWird", JSON.stringify(state.wird));
+    renderWirdCard();
+  });
+}
+if (el.wirdResetBtn) {
+  el.wirdResetBtn.addEventListener("click", () => {
+    ensureWirdDate();
+    state.wird.done = 0;
+    localStorage.setItem("dailyWird", JSON.stringify(state.wird));
+    renderWirdCard();
+  });
+}
+
+if (el.openAdhkarTabBtn) {
+  el.openAdhkarTabBtn.addEventListener("click", () => switchTab("adhkar"));
+}
+
 // ===== Text Color Settings =====
 const textColorPicker = document.getElementById("textColorPicker");
 const saveTextColorBtn = document.getElementById("saveTextColor");
@@ -756,10 +892,17 @@ function initSplash() {
   const splash = document.getElementById("splashScreen");
   if (!splash) return;
 
+  const SPLASH_KEY = "splashShownSession";
+  if (sessionStorage.getItem(SPLASH_KEY) === "1") {
+    splash.style.display = "none";
+    return;
+  }
+
   // Auto-dismiss after 3.2 seconds
   const SPLASH_DURATION = 3200;
 
   function hideSplash() {
+    sessionStorage.setItem(SPLASH_KEY, "1");
     splash.classList.add("splash-hide");
     splash.addEventListener("animationend", () => {
       splash.style.display = "none";
@@ -781,8 +924,11 @@ async function boot() {
   renderSurahList();
   state.favorites = parseJsonSafe("favorites", []);
   state.lastRead = parseJsonSafe("lastRead", null);
+  ensureWirdDate();
   updateHeaderStats();
+  renderWirdCard();
   renderFavorites();
+  renderQuickAdhkar();
   renderTasbeehGrid();
   await loadAdhkar();
 }
