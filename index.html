@@ -156,6 +156,8 @@
     </aside>
 
     <section class="content">
+      <div id="prayerReminderBanner" class="prayer-reminder-banner" style="display:none"></div>
+
       <section id="dashboard" class="tab active">
         <div class="grid two">
           <article class="card">
@@ -176,6 +178,7 @@
             </div>
           </article>
         </div>
+
       </section>
 
       <section id="quran" class="tab">
@@ -235,6 +238,17 @@
           <p id="prayerDate" class="muted" style="margin-top:10px"></p>
           <div id="prayerList" class="list" style="margin-top:14px"></div>
           <div id="prayerLoading" class="muted" style="margin-top:8px;text-align:center"></div>
+
+          <!-- Notification Tip -->
+          <div id="notificationTip" class="notification-tip" style="display:none">
+            <div class="notification-tip-icon">🔔</div>
+            <div class="notification-tip-body">
+              <div class="notification-tip-title">تنبيهات الصلاة</div>
+              <div class="notification-tip-msg">فعّل الإشعارات لتلقي تنبيه عند كل وقت صلاة</div>
+            </div>
+            <button id="enableNotifBtn" class="btn primary notification-tip-btn">تفعيل</button>
+            <button id="dismissNotifBtn" class="btn notification-tip-dismiss">✕</button>
+          </div>
         </div>
       </section>
 
@@ -344,6 +358,21 @@
   <footer class="site-footer">
     <p>تم تصميمه بـ ❤️ بواسطة <strong>Alaa</strong> &nbsp;|&nbsp; أنا مسلم &copy; 2026</p>
   </footer>
+
+  <!-- Continue Reading Popup -->
+  <div id="continueReadingPopup" class="continue-popup" style="display:none">
+    <div class="continue-popup-overlay"></div>
+    <div class="continue-popup-card">
+      <div class="continue-popup-icon">📖</div>
+      <h3>متابعة القراءة</h3>
+      <div class="continue-popup-surah" id="continuePopupSurah">—</div>
+      <p class="continue-popup-msg">هل تريد متابعة قراءتك من حيث توقفت؟</p>
+      <div class="continue-popup-btns">
+        <button id="continuePopupYes" class="btn primary">📖 تابع القراءة</button>
+        <button id="continuePopupNo" class="btn">لاحقاً</button>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

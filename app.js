@@ -10,6 +10,25 @@ function escapeHtml(s) {
     .replace(/\x22/g, '\x26quot;');
 }
 
+// Clean corrupted adhkar content (Python list artifacts)
+function cleanAdhkarContent(content) {
+  if (!content) return content;
+  if (!content.includes("', '")) return content;
+  const parts = [];
+  const regex = /"([^"]+)"/g;
+  let match;
+  while ((match = regex.exec(content)) !== null) {
+    let text = match[1].trim();
+    text = text.replace(/\s*\.\s*\[[^\]]+\]\s*\.?\s*$/, '').trim();
+    text = text.replace(/\s*\[[^\]]+\]\s*\.?\s*$/, '').trim();
+    if (text && text.length > 5 && /[\u0600-\u06FF]/.test(text)) {
+      parts.push(text);
+    }
+  }
+  if (parts.length > 0) return parts.join('\n');
+  return content.replace(/\n', '/g, ' ').replace(/^[\s\n',]+|[\s\n',]+$/g, '').trim();
+}
+
 // ===== Constants =====
 const API = {
   byCity: (city, country) => `https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&method=3`,
@@ -510,8 +529,8 @@ async function loadAdhkar() {
           if (!Array.isArray(items)) continue;
           const flat = [];
           for (const item of items) {
-            if (Array.isArray(item)) { item.forEach(i => { if (i && i.content) flat.push({zekr: i.content, count: i.count || "1", description: i.description || ""}); }); }
-            else if (item && item.content) flat.push({zekr: item.content, count: item.count || "1", description: item.description || ""});
+            if (Array.isArray(item)) { item.forEach(i => { if (i && i.content) flat.push({zekr: cleanAdhkarContent(i.content), count: i.count || "1", description: i.description || ""}); }); }
+            else if (item && item.content) flat.push({zekr: cleanAdhkarContent(item.content), count: item.count || "1", description: item.description || ""});
             else if (item && item.zekr) flat.push(item);
           }
           if (flat.length) normalized[cat] = flat;
@@ -907,6 +926,108 @@ if (resetTextColorBtn) {
   });
 }
 
+// ===== Continue Reading Popup =====
+function showContinueReadingPopup() {
+  const lr = parseJsonSafe("lastRead", null);
+  if (!lr || !lr.number) return;
+  if (sessionStorage.getItem("continuePopupShown") === "1") return;
+  sessionStorage.setItem("continuePopupShown", "1");
+
+  const popup = document.getElementById("continueReadingPopup");
+  const surahEl = document.getElementById("continuePopupSurah");
+  const yesBtn = document.getElementById("continuePopupYes");
+  const noBtn = document.getElementById("continuePopupNo");
+  if (!popup) return;
+
+  if (surahEl) surahEl.textContent = `سورة ${lr.name} — آية ${lr.ayah || 1}`;
+  popup.style.display = "flex";
+
+  function closePopup() { popup.style.display = "none"; }
+
+  if (yesBtn) yesBtn.onclick = () => {
+    closePopup();
+    window.location.href = `surah.html?surah=${lr.number}&ayah=${lr.ayah||1}&reciter=${lr.reciterIdx||state.currentReciterIdx}`;
+  };
+  if (noBtn) noBtn.onclick = closePopup;
+  popup.addEventListener("click", e => { if (e.target === popup) closePopup(); });
+}
+
+// ===== Prayer Notifications =====
+let _notifTimeouts = [];
+
+function clearPrayerNotifTimeouts() {
+  _notifTimeouts.forEach(t => clearTimeout(t));
+  _notifTimeouts = [];
+}
+
+function schedulePrayerNotifications(timings) {
+  clearPrayerNotifTimeouts();
+  if (!("Notification" in window) || Notification.permission !== "granted") return;
+  const prayers = [
+    { key:"Fajr", name:"الفجر" }, { key:"Dhuhr", name:"الظهر" },
+    { key:"Asr", name:"العصر" }, { key:"Maghrib", name:"المغرب" }, { key:"Isha", name:"العشاء" }
+  ];
+  const now = new Date();
+  prayers.forEach(p => {
+    const raw = cleanTime(timings[p.key]);
+    if (!raw) return;
+    const parts = raw.split(":");
+    if (parts.length < 2) return;
+    const pt = new Date();
+    pt.setHours(parseInt(parts[0], 10), parseInt(parts[1], 10), 0, 0);
+    const diff = pt - now;
+    if (diff > 0 && diff < 24 * 3600 * 1000) {
+      _notifTimeouts.push(setTimeout(() => {
+        try {
+          new Notification("🕌 حان وقت الصلاة", {
+            body: `حان الآن وقت صلاة ${p.name}`,
+            icon: "favicon.svg",
+            tag: `prayer-${p.key}`,
+            requireInteraction: false
+          });
+        } catch {}
+      }, diff));
+    }
+  });
+}
+
+function initNotificationTip() {
+  const tip = document.getElementById("notificationTip");
+  const enableBtn = document.getElementById("enableNotifBtn");
+  const dismissBtn = document.getElementById("dismissNotifBtn");
+  if (!tip) return;
+
+  if (!("Notification" in window) || localStorage.getItem("notifDismissed") === "1") {
+    tip.style.display = "none";
+    return;
+  }
+  if (Notification.permission === "granted") {
+    tip.style.display = "none";
+    return;
+  }
+  if (Notification.permission === "denied") {
+    tip.style.display = "none";
+    return;
+  }
+
+  tip.style.display = "";
+
+  if (enableBtn) enableBtn.onclick = async () => {
+    const perm = await Notification.requestPermission();
+    if (perm === "granted") {
+      tip.style.display = "none";
+      enableBtn.textContent = "✅ تم التفعيل";
+    } else {
+      tip.style.display = "none";
+      localStorage.setItem("notifDismissed", "1");
+    }
+  };
+  if (dismissBtn) dismissBtn.onclick = () => {
+    tip.style.display = "none";
+    localStorage.setItem("notifDismissed", "1");
+  };
+}
+
 // ===== Splash Screen =====
 function initSplash() {
   const splash = document.getElementById("splashScreen");
@@ -950,6 +1071,10 @@ async function boot() {
   renderFavorites();
   renderQuickAdhkar();
   renderTasbeehGrid();
+  initNotificationTip();
   await loadAdhkar();
+  // Show continue reading popup after splash finishes
+  const splashAlreadyDone = sessionStorage.getItem("splashShownSession") === "1";
+  setTimeout(() => showContinueReadingPopup(), splashAlreadyDone ? 400 : 3600);
 }
 boot();

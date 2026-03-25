@@ -2147,6 +2147,124 @@ body.dark .quiz-choice-btn.wrong {
   justify-content: center;
 }
 
+/* ===== Continue Reading Popup ===== */
+.continue-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: quizFadeIn .3s ease;
+}
+.continue-popup-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.62);
+  backdrop-filter: blur(7px);
+}
+.continue-popup-card {
+  position: relative;
+  z-index: 1;
+  background: var(--card);
+  border-radius: 24px;
+  padding: 36px 28px 28px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 28px 80px rgba(0,0,0,.45);
+  border: 1.5px solid var(--border);
+  animation: quizSlideUp .38s cubic-bezier(.4,0,.2,1);
+}
+.continue-popup-icon {
+  font-size: 52px;
+  margin-bottom: 10px;
+  display: block;
+}
+.continue-popup-card h3 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.continue-popup-surah {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  margin: 12px 0;
+  border-right: 4px solid var(--primary);
+  text-align: right;
+}
+.continue-popup-msg {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+.continue-popup-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.continue-popup-btns .btn {
+  flex: 1;
+  min-width: 120px;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ===== Notification Tip ===== */
+.notification-tip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, var(--primary-light), var(--card2));
+  border: 1.5px solid var(--primary);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.notification-tip-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+}
+.notification-tip-body {
+  flex: 1;
+  min-width: 140px;
+}
+.notification-tip-title {
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--text);
+}
+.notification-tip-msg {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.notification-tip-btn {
+  flex-shrink: 0;
+  font-size: 13px;
+  padding: 8px 16px;
+}
+.notification-tip-dismiss {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: var(--muted);
+  border-color: transparent;
+  background: transparent;
+}
+.notification-tip-dismiss:hover {
+  color: var(--text);
+  border-color: var(--border);
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 1000px) {
   .layout {
