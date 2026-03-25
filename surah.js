@@ -828,11 +828,12 @@ function genCorrectAyah(ayahIdx) {
 function buildMemQuestions(count) {
   if (state.ayahs.length < 4) return [];
   const questions = [];
-  const types = [genCompleteAyah, genFillBlank, genAyahNumber, genCorrectAyah];
+  // Removed genAyahNumber — we never ask for ayah numbers, only text
+  const types = [genCompleteAyah, genFillBlank, genCorrectAyah];
   const usedIdxs = new Set();
 
   let attempts = 0;
-  while (questions.length < count && attempts < count * 6) {
+  while (questions.length < count && attempts < count * 8) {
     attempts++;
     const ayahIdx = Math.floor(Math.random() * state.ayahs.length);
     if (usedIdxs.has(ayahIdx)) continue;
@@ -847,43 +848,74 @@ function buildMemQuestions(count) {
 }
 
 // ---- Build Tafsir Questions ----
+// Two sub-types:
+//   A) Show tafsir snippet → choose correct AYAH TEXT (not number)
+//   B) Show ayah text → choose correct TAFSIR SNIPPET
 async function buildTafsirQuestions(count) {
   if (state.ayahs.length < 4) return [];
   const questions = [];
   const usedIdxs = new Set();
-  const needed = Math.min(count, state.ayahs.length);
 
-  // Pick random ayahs
-  const pool = quizShuffle([...Array(state.ayahs.length).keys()]).slice(0, needed);
+  // Fetch a pool of (ayah, tafsir) pairs
+  const pool = quizShuffle([...Array(state.ayahs.length).keys()]).slice(0, Math.min(count * 3, state.ayahs.length));
+  const pairs = []; // { ayah, tafsir, snippet }
 
   for (const ayahIdx of pool) {
-    if (usedIdxs.has(ayahIdx)) continue;
     const ayah = state.ayahs[ayahIdx];
     const tafsir = await fetchAyahTafsir(ayah.numberInSurah);
     if (!tafsir || tafsir.includes("تعذر")) continue;
-
-    // Truncate tafsir to ~200 chars for display
-    const snippet = tafsir.length > 220
-      ? tafsir.slice(0, 220).replace(/\s+\S*$/, "") + "..."
+    const snippet = tafsir.length > 200
+      ? tafsir.slice(0, 200).replace(/\s+\S*$/, "") + "..."
       : tafsir;
+    pairs.push({ ayah, tafsir, snippet, idx: ayahIdx });
+    if (pairs.length >= count * 2) break;
+  }
 
-    // Wrong ayah numbers
-    const otherNums = state.ayahs
-      .filter((_, i) => i !== ayahIdx)
-      .map(a => String(a.numberInSurah));
-    const wrongs = quizShuffle(otherNums).slice(0, 3);
-    const choices = quizShuffle([String(ayah.numberInSurah), ...wrongs]);
+  if (pairs.length < 4) return [];
 
-    questions.push({
-      type: "اختبار التفسير",
-      question: `📖 "${snippet}"`,
-      correctAnswer: String(ayah.numberInSurah),
-      choices,
-      ayahNum: ayah.numberInSurah,
-      isTafsir: true
-    });
-    usedIdxs.add(ayahIdx);
-    if (questions.length >= count) break;
+  const shuffledPairs = quizShuffle(pairs);
+
+  for (let i = 0; i < shuffledPairs.length && questions.length < count; i++) {
+    const { ayah, snippet, idx } = shuffledPairs[i];
+    if (usedIdxs.has(idx)) continue;
+
+    // Alternate between type A and type B
+    const useTypeA = questions.length % 2 === 0;
+
+    if (useTypeA) {
+      // Type A: Show tafsir snippet → choose correct AYAH TEXT
+      const otherAyahs = state.ayahs.filter((_, j) => j !== idx);
+      const wrongTexts = quizShuffle(otherAyahs).slice(0, 3).map(a => a.text);
+      const choices = quizShuffle([ayah.text, ...wrongTexts]);
+
+      questions.push({
+        type: "اختبار التفسير",
+        question: snippet,
+        correctAnswer: ayah.text,
+        choices,
+        ayahNum: ayah.numberInSurah,
+        isTafsir: true,
+        tafsirSubType: "A"
+      });
+    } else {
+      // Type B: Show ayah text → choose correct TAFSIR SNIPPET
+      const otherPairs = shuffledPairs.filter((_, j) => j !== i).slice(0, 3);
+      if (otherPairs.length < 3) continue;
+      const wrongSnippets = otherPairs.map(p => p.snippet);
+      const choices = quizShuffle([snippet, ...wrongSnippets]);
+
+      questions.push({
+        type: "اختبار التفسير",
+        question: ayah.text,
+        correctAnswer: snippet,
+        choices,
+        ayahNum: ayah.numberInSurah,
+        isTafsir: true,
+        tafsirSubType: "B"
+      });
+    }
+
+    usedIdxs.add(idx);
   }
   return questions;
 }
@@ -900,37 +932,67 @@ function quizRenderQuestion() {
   if (quizEl.scoreDisplay) quizEl.scoreDisplay.textContent = `✅ ${quizState.score}`;
   if (quizEl.questionType) quizEl.questionType.textContent = q.type;
 
-  // Question text
+  // Question text + hint label
   if (quizEl.questionText) {
-    if (q.isHtml) {
+    // Reset styles
+    quizEl.questionText.style.fontSize = "";
+    quizEl.questionText.style.lineHeight = "";
+    quizEl.questionText.style.fontFamily = "";
+    quizEl.questionText.innerHTML = "";
+
+    // Add hint label for tafsir questions
+    if (q.isTafsir) {
+      const hint = document.createElement("div");
+      hint.style.cssText = "font-size:12px;color:var(--muted);margin-bottom:8px;font-family:'Cairo',sans-serif;font-weight:600;";
+      if (q.tafsirSubType === "A") {
+        hint.textContent = "📖 اقرأ التفسير التالي، ثم اختر الآية التي يفسرها:";
+        quizEl.questionText.appendChild(hint);
+        const textNode = document.createElement("div");
+        textNode.style.cssText = "font-size:14px;line-height:1.9;font-family:'Cairo',sans-serif;color:var(--text2);background:var(--card2);padding:12px;border-radius:10px;border:1px solid var(--border);";
+        textNode.textContent = q.question;
+        quizEl.questionText.appendChild(textNode);
+      } else {
+        // Type B: show ayah text → choose tafsir
+        hint.textContent = "🕌 اقرأ الآية الكريمة، ثم اختر تفسيرها الصحيح:";
+        quizEl.questionText.appendChild(hint);
+        const textNode = document.createElement("div");
+        textNode.style.cssText = "font-size:22px;line-height:2;font-family:'Cairo',sans-serif;color:var(--text);text-align:center;padding:8px 4px;";
+        textNode.textContent = q.question;
+        quizEl.questionText.appendChild(textNode);
+      }
+    } else if (q.isHtml) {
       quizEl.questionText.innerHTML = q.question;
-    } else if (q.isTafsir) {
-      quizEl.questionText.style.fontSize = "15px";
-      quizEl.questionText.style.lineHeight = "1.9";
-      quizEl.questionText.style.fontFamily = "'Cairo', sans-serif";
-      quizEl.questionText.textContent = q.question;
     } else {
-      quizEl.questionText.style.fontSize = "";
-      quizEl.questionText.style.lineHeight = "";
-      quizEl.questionText.style.fontFamily = "";
       quizEl.questionText.textContent = q.question;
     }
   }
 
-  // Choices
+  // Choices — build buttons programmatically to avoid HTML injection issues
   if (quizEl.choices) {
-    quizEl.choices.innerHTML = q.choices.map((c, i) => {
-      const label = ["أ", "ب", "ج", "د"][i] || String(i + 1);
-      const displayText = q.isTafsir ? `آية ${c}` : c;
-      return `<button class="quiz-choice-btn" data-idx="${i}" data-value="${escapeHtml(c)}">
-        <span style="font-size:11px;color:var(--muted);margin-left:6px;font-family:'Cairo',sans-serif">${label}</span>
-        ${escapeHtml(displayText)}
-      </button>`;
-    }).join("");
+    quizEl.choices.innerHTML = "";
+    const labels = ["أ", "ب", "ج", "د"];
 
-    // Attach click handlers
-    quizEl.choices.querySelectorAll(".quiz-choice-btn").forEach(btn => {
-      btn.addEventListener("click", () => quizHandleAnswer(btn.dataset.value, btn));
+    q.choices.forEach((c, i) => {
+      const btn = document.createElement("button");
+      btn.className = "quiz-choice-btn";
+      btn.dataset.idx = String(i);
+      btn.dataset.value = c;
+
+      const labelSpan = document.createElement("span");
+      labelSpan.style.cssText = "font-size:11px;color:var(--muted);margin-left:6px;font-family:'Cairo',sans-serif;flex-shrink:0";
+      labelSpan.textContent = labels[i] || String(i + 1);
+
+      const textSpan = document.createElement("span");
+      // For tafsir type B (choices are tafsir snippets): smaller font
+      if (q.isTafsir && q.tafsirSubType === "B") {
+        textSpan.style.cssText = "font-size:13px;line-height:1.7;font-family:'Cairo',sans-serif;text-align:right";
+      }
+      textSpan.textContent = c;
+
+      btn.appendChild(labelSpan);
+      btn.appendChild(textSpan);
+      btn.addEventListener("click", () => quizHandleAnswer(c, btn));
+      quizEl.choices.appendChild(btn);
     });
   }
 
