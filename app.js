@@ -290,10 +290,30 @@ function applyColorTheme(theme) {
   localStorage.setItem("colorTheme", theme);
 }
 
+// Returns luminance 0-1 for a hex color
+function colorLuminance(hex) {
+  const h = hex.replace("#", "");
+  if (h.length < 6) return 0.5;
+  const r = parseInt(h.slice(0, 2), 16) / 255;
+  const g = parseInt(h.slice(2, 4), 16) / 255;
+  const b = parseInt(h.slice(4, 6), 16) / 255;
+  return 0.299 * r + 0.587 * g + 0.114 * b;
+}
+
 function applyTextColor() {
   const color = localStorage.getItem("textColor") || "";
+  const isDark = document.body.classList.contains("dark");
   if (color) {
-    document.documentElement.style.setProperty("--quran-text-color", color);
+    const lum = colorLuminance(color);
+    // In light mode: block very light colors (luminance > 0.75) → use dark text
+    // In dark mode: block very dark colors (luminance < 0.15) → use light text
+    if (!isDark && lum > 0.75) {
+      document.documentElement.style.removeProperty("--quran-text-color");
+    } else if (isDark && lum < 0.15) {
+      document.documentElement.style.removeProperty("--quran-text-color");
+    } else {
+      document.documentElement.style.setProperty("--quran-text-color", color);
+    }
   } else {
     document.documentElement.style.removeProperty("--quran-text-color");
   }
