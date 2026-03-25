@@ -44,6 +44,7 @@
           <button id="readerNextSurah" class="btn" title="السورة التالية">السورة التالية &#8250;</button>
           <button id="readerFocusModeBtn" class="btn" title="وضع تركيز">🧘 وضع تركيز</button>
           <button id="readerMarkFollow" class="btn gold">&#11088; مفضلة</button>
+          <button id="readerBookmarkBtn" class="btn bookmark-btn">📌 وضع علامة</button>
           <button id="openQuizBtn" class="btn quiz-btn">🧪 اختبار</button>
         </div>
       </div>
@@ -69,6 +70,13 @@
         </div>
       </div>
       <audio id="readerAudio"></audio>
+    </div>
+
+    <!-- Bookmark Indicator -->
+    <div id="bookmarkIndicator" class="bookmark-indicator" style="display:none">
+      <span class="bookmark-indicator-icon">📌</span>
+      <span class="bookmark-indicator-text" id="bookmarkIndicatorText">لديك علامة محفوظة في هذه السورة</span>
+      <button class="bookmark-indicator-go" id="bookmarkIndicatorGoBtn">الانتقال إليها</button>
     </div>
 
     <!-- Ayah Focus Box (default view) -->

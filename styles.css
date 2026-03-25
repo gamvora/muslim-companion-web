@@ -1,4 +1,3 @@
-\n', '"رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ". [البقرة - 201].\n', '\n', '\n', '\n', '\n', '\n', '\n', '
 /* ===== Splash Screen ===== */
 @keyframes splashFadeIn {
   from { opacity: 0; transform: translateY(24px); }
@@ -2263,6 +2262,446 @@ body.dark .quiz-choice-btn.wrong {
 .notification-tip-dismiss:hover {
   color: var(--text);
   border-color: var(--border);
+}
+
+/* ===== Asmaul Husna Grid ===== */
+.asma-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: 14px;
+  margin-top: 8px;
+}
+.asma-card {
+  background: linear-gradient(135deg, var(--primary-light), var(--card2));
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 18px 14px;
+  text-align: center;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+}
+.asma-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--primary-glow), transparent);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.asma-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+.asma-card:hover::before { opacity: 1; }
+.asma-num {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 2px 8px;
+  display: inline-block;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+.asma-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1.4;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 8px var(--primary-glow);
+}
+.asma-meaning {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Hijri Date Card ===== */
+.hijri-card {
+  background: linear-gradient(135deg, var(--primary-light), var(--card2));
+  border: 1.5px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.hijri-card::after {
+  content: "📅";
+  position: absolute;
+  left: -8px;
+  bottom: -8px;
+  font-size: 72px;
+  opacity: 0.06;
+  pointer-events: none;
+  line-height: 1;
+}
+.hijri-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.hijri-icon { font-size: 22px; }
+.hijri-date-display {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.7;
+  direction: rtl;
+}
+.hijri-occasion {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: var(--radius-xs);
+  padding: 6px 12px;
+  border-right: 3px solid var(--primary);
+}
+
+/* ===== Hadith Card ===== */
+.hadith-card {
+  background: linear-gradient(135deg, var(--gold-light), var(--card2));
+  border: 1.5px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.hadith-card::after {
+  content: "📜";
+  position: absolute;
+  left: -8px;
+  bottom: -8px;
+  font-size: 72px;
+  opacity: 0.06;
+  pointer-events: none;
+  line-height: 1;
+}
+.hadith-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.hadith-icon { font-size: 22px; }
+.hadith-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 2;
+  border-right: 4px solid var(--gold);
+  padding-right: 14px;
+  margin-bottom: 10px;
+}
+.hadith-narrator {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+  text-align: left;
+  direction: ltr;
+}
+
+/* ===== Reading Streak Card ===== */
+.streak-card {
+  background: linear-gradient(135deg, var(--primary-light), var(--card2));
+  border: 1.5px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.streak-card::after {
+  content: "🔥";
+  position: absolute;
+  left: -8px;
+  bottom: -8px;
+  font-size: 72px;
+  opacity: 0.06;
+  pointer-events: none;
+  line-height: 1;
+}
+.streak-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.streak-count {
+  font-size: 52px;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+  text-shadow: 0 4px 16px var(--primary-glow);
+  min-width: 60px;
+  text-align: center;
+}
+.streak-msg {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 6px;
+  font-weight: 600;
+}
+.streak-dots {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+  align-items: center;
+}
+.streak-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--border);
+  border: 2px solid var(--border2);
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+.streak-dot.on {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px var(--primary-glow);
+}
+
+/* ===== Prayer Log Card ===== */
+.prayer-log-card {
+  background: var(--card2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: var(--shadow);
+}
+.prayer-log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.prayer-log-header h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+}
+.prayer-log-date {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.prayer-log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.prayer-log-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.prayer-log-item:hover { border-color: var(--primary); background: var(--primary-light); }
+.prayer-log-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.prayer-log-item:has(input:checked) {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+.prayer-log-progress-wrap {
+  height: 8px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.prayer-log-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  border-radius: 99px;
+  transition: width .4s ease;
+}
+.prayer-log-msg {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ===== Achievements Grid ===== */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 14px;
+  margin-top: 8px;
+}
+.ach-card {
+  background: var(--card2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px 16px;
+  text-align: center;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.ach-card.ok {
+  background: linear-gradient(135deg, var(--primary-light), var(--card2));
+  border-color: var(--primary);
+  box-shadow: 0 4px 16px var(--primary-glow);
+}
+.ach-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.ach-icon { font-size: 36px; margin-bottom: 10px; display: block; }
+.ach-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.ach-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.ach-state {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 99px;
+  display: inline-block;
+}
+.ach-card.ok .ach-state {
+  background: var(--primary);
+  color: #fff;
+}
+.ach-card:not(.ok) .ach-state {
+  background: var(--border);
+  color: var(--muted);
+}
+.achievements-total {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-light);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 6px 16px;
+}
+
+/* ===== Bookmark Button ===== */
+.bookmark-btn {
+  background: linear-gradient(135deg, #d97706, #b45309) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(217,119,6,.28);
+}
+.bookmark-btn:hover {
+  background: linear-gradient(135deg, #b45309, #92400e) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 20px rgba(217,119,6,.4) !important;
+  transform: translateY(-1px) !important;
+}
+.bookmark-btn.bookmarked {
+  background: linear-gradient(135deg, #059669, #047857) !important;
+  box-shadow: 0 4px 14px rgba(5,150,105,.28) !important;
+}
+
+/* ===== Bookmark Indicator ===== */
+.bookmark-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 1.5px solid #f59e0b;
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 14px;
+  animation: splashFadeIn .3s ease;
+}
+body.dark .bookmark-indicator {
+  background: linear-gradient(135deg, #1c1400, #2a1e00);
+  border-color: #d97706;
+  color: #fbbf24;
+}
+.bookmark-indicator-icon { font-size: 20px; flex-shrink: 0; }
+.bookmark-indicator-text { flex: 1; }
+.bookmark-indicator-go {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  border: 1.5px solid #d97706;
+  background: rgba(217,119,6,.12);
+  color: #92400e;
+  cursor: pointer;
+  font-family: "Cairo", sans-serif;
+  font-weight: 700;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+body.dark .bookmark-indicator-go {
+  border-color: #d97706;
+  background: rgba(217,119,6,.2);
+  color: #fbbf24;
+}
+.bookmark-indicator-go:hover {
+  background: #d97706;
+  color: #fff;
+}
+
+/* ===== Ayah Bookmark Highlight ===== */
+.ayah-span.bookmarked-span {
+  background: linear-gradient(135deg, #fef3c7, #fde68a) !important;
+  color: #92400e !important;
+  border-radius: 8px;
+  padding: 2px 8px;
+}
+body.dark .ayah-span.bookmarked-span {
+  background: linear-gradient(135deg, #2a1e00, #1c1400) !important;
+  color: #fbbf24 !important;
+}
+
+/* ===== Daily Card ===== */
+.daily-card {
+  position: relative;
+  overflow: hidden;
+}
+.daily-card::before {
+  content: "☪";
+  position: absolute;
+  left: -10px;
+  bottom: -10px;
+  font-size: 80px;
+  opacity: 0.04;
+  pointer-events: none;
+  color: var(--primary);
 }
 
 /* ===== Responsive ===== */

@@ -95,6 +95,157 @@ const RECITERS = [
   {name:"ياسر الدوسري"},{name:"سعد الغامدي"}
 ];
 
+// ===== 99 Names of Allah =====
+const ALLAH_NAMES = [
+  {num:1,  ar:"الله",              meaning:"الاسم الجامع لجميع صفات الكمال والجلال"},
+  {num:2,  ar:"الرحمن",           meaning:"الرحيم بجميع خلقه في الدنيا"},
+  {num:3,  ar:"الرحيم",           meaning:"الرحيم بالمؤمنين في الآخرة"},
+  {num:4,  ar:"الملك",            meaning:"المالك لكل شيء، الحاكم المطلق"},
+  {num:5,  ar:"القدوس",           meaning:"المنزه عن كل نقص وعيب"},
+  {num:6,  ar:"السلام",           meaning:"السالم من كل عيب، المُسلِّم على عباده"},
+  {num:7,  ar:"المؤمن",           meaning:"المصدِّق لرسله، المُؤمِّن لعباده"},
+  {num:8,  ar:"المهيمن",          meaning:"الرقيب الحافظ على كل شيء"},
+  {num:9,  ar:"العزيز",           meaning:"الغالب الذي لا يُغلب"},
+  {num:10, ar:"الجبار",           meaning:"القاهر فوق عباده، الجابر للكسور"},
+  {num:11, ar:"المتكبر",          meaning:"المتعظم عن كل سوء وظلم"},
+  {num:12, ar:"الخالق",           meaning:"الموجِد للأشياء من العدم"},
+  {num:13, ar:"البارئ",           meaning:"المميِّز بعضها عن بعض بالصور"},
+  {num:14, ar:"المصور",           meaning:"الذي يصور الخلق كيف يشاء"},
+  {num:15, ar:"الغفار",           meaning:"كثير المغفرة للذنوب"},
+  {num:16, ar:"القهار",           meaning:"الغالب على كل شيء قهراً"},
+  {num:17, ar:"الوهاب",           meaning:"كثير العطاء والهبات بلا عوض"},
+  {num:18, ar:"الرزاق",           meaning:"الذي يرزق جميع خلقه"},
+  {num:19, ar:"الفتاح",           meaning:"الذي يفتح أبواب الرزق والرحمة"},
+  {num:20, ar:"العليم",           meaning:"المحيط علمه بكل شيء ظاهراً وباطناً"},
+  {num:21, ar:"القابض",           meaning:"الذي يقبض الأرواح والأرزاق"},
+  {num:22, ar:"الباسط",           meaning:"الذي يبسط الرزق لمن يشاء"},
+  {num:23, ar:"الخافض",           meaning:"الذي يخفض الجبارين والطغاة"},
+  {num:24, ar:"الرافع",           meaning:"الذي يرفع المؤمنين بطاعته"},
+  {num:25, ar:"المعز",            meaning:"الذي يعطي العزة لمن يشاء"},
+  {num:26, ar:"المذل",            meaning:"الذي يذل من يشاء بعدله"},
+  {num:27, ar:"السميع",           meaning:"الذي يسمع كل شيء جهراً وسراً"},
+  {num:28, ar:"البصير",           meaning:"الذي يرى كل شيء دقيقه وجليله"},
+  {num:29, ar:"الحكم",            meaning:"الحاكم العادل الذي لا يُرد حكمه"},
+  {num:30, ar:"العدل",            meaning:"البالغ في العدل، المنزه عن الظلم"},
+  {num:31, ar:"اللطيف",           meaning:"الرفيق بعباده، العالم بدقائق الأمور"},
+  {num:32, ar:"الخبير",           meaning:"العالم بخفايا الأمور وبواطنها"},
+  {num:33, ar:"الحليم",           meaning:"الصبور الذي لا يعجل بالعقوبة"},
+  {num:34, ar:"العظيم",           meaning:"الكبير المتعالي في ذاته وصفاته"},
+  {num:35, ar:"الغفور",           meaning:"الساتر لذنوب عباده التائبين"},
+  {num:36, ar:"الشكور",           meaning:"الذي يجزي على القليل بالكثير"},
+  {num:37, ar:"العلي",            meaning:"المتعالي فوق خلقه بذاته وقدره"},
+  {num:38, ar:"الكبير",           meaning:"الكبير الذي لا أكبر منه"},
+  {num:39, ar:"الحفيظ",           meaning:"الحافظ لكل شيء، لا يضيع عنده شيء"},
+  {num:40, ar:"المقيت",           meaning:"الرازق المقتدر على كل شيء"},
+  {num:41, ar:"الحسيب",           meaning:"الكافي لعباده، المحاسب لهم"},
+  {num:42, ar:"الجليل",           meaning:"ذو الجلال والعظمة والكبرياء"},
+  {num:43, ar:"الكريم",           meaning:"الكثير الخير والعطاء والإحسان"},
+  {num:44, ar:"الرقيب",           meaning:"المطلع على كل شيء، لا يغيب عنه شيء"},
+  {num:45, ar:"المجيب",           meaning:"المستجيب للدعاء والسائلين"},
+  {num:46, ar:"الواسع",           meaning:"الواسع الرحمة والعلم والفضل"},
+  {num:47, ar:"الحكيم",           meaning:"الحكيم في أفعاله وأقواله وتدبيره"},
+  {num:48, ar:"الودود",           meaning:"المحب لعباده المؤمنين"},
+  {num:49, ar:"المجيد",           meaning:"الواسع الكرم والشرف والمجد"},
+  {num:50, ar:"الباعث",           meaning:"الذي يبعث الخلق يوم القيامة"},
+  {num:51, ar:"الشهيد",           meaning:"الشاهد على كل شيء في كل وقت"},
+  {num:52, ar:"الحق",             meaning:"الثابت الوجود، الحق في ذاته وصفاته"},
+  {num:53, ar:"الوكيل",           meaning:"الكافي لمن توكل عليه"},
+  {num:54, ar:"القوي",            meaning:"الشديد القوة الذي لا يعجزه شيء"},
+  {num:55, ar:"المتين",           meaning:"الشديد القوة والبطش والإحكام"},
+  {num:56, ar:"الولي",            meaning:"الناصر لعباده المؤمنين"},
+  {num:57, ar:"الحميد",           meaning:"المحمود في أفعاله وصفاته"},
+  {num:58, ar:"المحصي",           meaning:"الذي أحصى كل شيء وعلمه"},
+  {num:59, ar:"المبدئ",           meaning:"الذي أوجد الخلق ابتداءً من غير مثال"},
+  {num:60, ar:"المعيد",           meaning:"الذي يعيد الخلق بعد الفناء"},
+  {num:61, ar:"المحيي",           meaning:"الذي يحيي الموتى ويهب الحياة"},
+  {num:62, ar:"المميت",           meaning:"الذي يميت الأحياء بأمره"},
+  {num:63, ar:"الحي",             meaning:"الدائم الحياة الذي لا يموت"},
+  {num:64, ar:"القيوم",           meaning:"القائم بنفسه المقيم لغيره"},
+  {num:65, ar:"الواجد",           meaning:"الغني الذي لا يفتقر إلى شيء"},
+  {num:66, ar:"الماجد",           meaning:"الكريم الواسع الفضل والمجد"},
+  {num:67, ar:"الواحد",           meaning:"المنفرد بالوحدانية في ذاته"},
+  {num:68, ar:"الأحد",            meaning:"الفرد الذي لا شريك له ولا نظير"},
+  {num:69, ar:"الصمد",            meaning:"السيد الذي يُقصد في الحوائج"},
+  {num:70, ar:"القادر",           meaning:"القادر على كل شيء لا يعجزه شيء"},
+  {num:71, ar:"المقتدر",          meaning:"البالغ في القدرة والسلطان"},
+  {num:72, ar:"المقدم",           meaning:"الذي يقدم ما يشاء من خلقه"},
+  {num:73, ar:"المؤخر",           meaning:"الذي يؤخر ما يشاء بحكمته"},
+  {num:74, ar:"الأول",            meaning:"الذي ليس قبله شيء"},
+  {num:75, ar:"الآخر",            meaning:"الذي ليس بعده شيء"},
+  {num:76, ar:"الظاهر",           meaning:"الغالب على كل شيء، الظاهر بآياته"},
+  {num:77, ar:"الباطن",           meaning:"العالم بكل خفية، المحيط بكل شيء"},
+  {num:78, ar:"الوالي",           meaning:"المتصرف في الأمور وحده"},
+  {num:79, ar:"المتعالي",         meaning:"المتنزه عن صفات الخلق ونقائصهم"},
+  {num:80, ar:"البر",             meaning:"الكثير الإحسان والبر بعباده"},
+  {num:81, ar:"التواب",           meaning:"الذي يقبل التوبة ويعفو عن الذنوب"},
+  {num:82, ar:"المنتقم",          meaning:"الذي ينتقم من الظالمين بعدله"},
+  {num:83, ar:"العفو",            meaning:"الذي يمحو الذنوب ويعفو عنها"},
+  {num:84, ar:"الرؤوف",           meaning:"الرحيم الرفيق بعباده"},
+  {num:85, ar:"مالك الملك",       meaning:"مالك الملك كله يؤتيه من يشاء"},
+  {num:86, ar:"ذو الجلال والإكرام",meaning:"صاحب العظمة والكرم والجلال"},
+  {num:87, ar:"المقسط",           meaning:"العادل في حكمه وقضائه"},
+  {num:88, ar:"الجامع",           meaning:"الذي يجمع الخلق ليوم القيامة"},
+  {num:89, ar:"الغني",            meaning:"المستغني عن كل شيء وكل أحد"},
+  {num:90, ar:"المغني",           meaning:"الذي يغني من يشاء من عباده"},
+  {num:91, ar:"المانع",           meaning:"الذي يمنع ما يشاء بحكمته"},
+  {num:92, ar:"الضار",            meaning:"الذي يضر من يشاء بعدله"},
+  {num:93, ar:"النافع",           meaning:"الذي ينفع من يشاء بفضله"},
+  {num:94, ar:"النور",            meaning:"نور السماوات والأرض، الهادي"},
+  {num:95, ar:"الهادي",           meaning:"الذي يهدي من يشاء إلى الحق"},
+  {num:96, ar:"البديع",           meaning:"المبدع للخلق بلا مثال سابق"},
+  {num:97, ar:"الباقي",           meaning:"الدائم الذي لا يفنى ولا يزول"},
+  {num:98, ar:"الوارث",           meaning:"الذي يرث الأرض ومن عليها"},
+  {num:99, ar:"الصبور",           meaning:"الذي لا يعجل بالعقوبة على العاصين"}
+];
+
+// ===== Hadiths of the Day =====
+const HADITHS = [
+  {text:"إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى.", narrator:"متفق عليه"},
+  {text:"الدين النصيحة.", narrator:"رواه مسلم"},
+  {text:"لا يؤمن أحدكم حتى يحب لأخيه ما يحب لنفسه.", narrator:"متفق عليه"},
+  {text:"من كان يؤمن بالله واليوم الآخر فليقل خيراً أو ليصمت.", narrator:"متفق عليه"},
+  {text:"إن الله جميل يحب الجمال.", narrator:"رواه مسلم"},
+  {text:"خيركم من تعلم القرآن وعلمه.", narrator:"رواه البخاري"},
+  {text:"الطهور شطر الإيمان.", narrator:"رواه مسلم"},
+  {text:"من سلك طريقاً يلتمس فيه علماً سهّل الله له طريقاً إلى الجنة.", narrator:"رواه مسلم"},
+  {text:"أحب الأعمال إلى الله أدومها وإن قل.", narrator:"متفق عليه"},
+  {text:"المسلم من سلم المسلمون من لسانه ويده.", narrator:"متفق عليه"},
+  {text:"لا تحقرن من المعروف شيئاً ولو أن تلقى أخاك بوجه طلق.", narrator:"رواه مسلم"},
+  {text:"إن الله لا ينظر إلى صوركم وأموالكم ولكن ينظر إلى قلوبكم وأعمالكم.", narrator:"رواه مسلم"},
+  {text:"الكلمة الطيبة صدقة.", narrator:"متفق عليه"},
+  {text:"من نفّس عن مؤمن كربة من كرب الدنيا نفّس الله عنه كربة من كرب يوم القيامة.", narrator:"رواه مسلم"},
+  {text:"اتق الله حيثما كنت، وأتبع السيئة الحسنة تمحها، وخالق الناس بخلق حسن.", narrator:"رواه الترمذي"},
+  {text:"ما نقصت صدقة من مال.", narrator:"رواه مسلم"},
+  {text:"الصلوات الخمس والجمعة إلى الجمعة كفارة لما بينهن.", narrator:"رواه مسلم"},
+  {text:"من صام رمضان إيماناً واحتساباً غُفر له ما تقدم من ذنبه.", narrator:"متفق عليه"},
+  {text:"بُني الإسلام على خمس: شهادة أن لا إله إلا الله وأن محمداً رسول الله، وإقام الصلاة، وإيتاء الزكاة، والحج، وصوم رمضان.", narrator:"متفق عليه"},
+  {text:"خير الناس أنفعهم للناس.", narrator:"رواه الطبراني"},
+  {text:"إن من أحبكم إليّ وأقربكم مني مجلساً يوم القيامة أحاسنكم أخلاقاً.", narrator:"رواه الترمذي"},
+  {text:"من أحب لقاء الله أحب الله لقاءه.", narrator:"متفق عليه"},
+  {text:"الجنة أقرب إلى أحدكم من شراك نعله، والنار مثل ذلك.", narrator:"رواه البخاري"},
+  {text:"تبسمك في وجه أخيك صدقة.", narrator:"رواه الترمذي"},
+  {text:"لا يدخل الجنة من كان في قلبه مثقال ذرة من كبر.", narrator:"رواه مسلم"},
+  {text:"الاستغفار يفتح أبواب الرزق.", narrator:"رواه أبو داود"},
+  {text:"من قرأ آية الكرسي دبر كل صلاة مكتوبة لم يمنعه من دخول الجنة إلا الموت.", narrator:"رواه النسائي"},
+  {text:"أفضل الصيام بعد رمضان شهر الله المحرم.", narrator:"رواه مسلم"},
+  {text:"الدعاء هو العبادة.", narrator:"رواه الترمذي"},
+  {text:"من حسن إسلام المرء تركه ما لا يعنيه.", narrator:"رواه الترمذي"}
+];
+
+// ===== Islamic Occasions =====
+const ISLAMIC_OCCASIONS = {
+  "1-1":  "رأس السنة الهجرية",
+  "10-1": "يوم عاشوراء",
+  "12-3": "المولد النبوي الشريف",
+  "27-7": "ليلة الإسراء والمعراج",
+  "15-8": "ليلة النصف من شعبان",
+  "1-9":  "بداية شهر رمضان المبارك",
+  "27-9": "ليلة القدر المرتقبة",
+  "1-10": "عيد الفطر المبارك",
+  "9-12": "يوم عرفة",
+  "10-12":"عيد الأضحى المبارك"
+};
+
 const DAILY_MESSAGES = [
   "خيركم من تعلم القرآن وعلمه.",
   "ألا بذكر الله تطمئن القلوب.",
@@ -175,6 +326,24 @@ const ADHKAR_FALLBACK = {
   ]
 };
 
+// ===== Achievements Definitions =====
+const ACHIEVEMENT_DEFS = [
+  {id:"first_surah",   icon:"📖", title:"أول خطوة",        desc:"افتح سورة للمرة الأولى",          check: s => (s.surahsOpened||0) >= 1},
+  {id:"ten_surahs",    icon:"📚", title:"قارئ نشيط",        desc:"افتح 10 سور مختلفة",              check: s => (s.surahsOpened||0) >= 10},
+  {id:"all_surahs",    icon:"🌟", title:"ختمة كاملة",       desc:"افتح جميع السور الـ 114",         check: s => (s.surahsOpened||0) >= 114},
+  {id:"streak3",       icon:"🔥", title:"3 أيام متتالية",   desc:"اقرأ 3 أيام متتالية",             check: s => (s.streak||0) >= 3},
+  {id:"streak7",       icon:"🔥", title:"أسبوع كامل",       desc:"اقرأ 7 أيام متتالية",             check: s => (s.streak||0) >= 7},
+  {id:"streak30",      icon:"🏅", title:"شهر من القراءة",   desc:"اقرأ 30 يوماً متتالياً",          check: s => (s.streak||0) >= 30},
+  {id:"tasbeeh100",    icon:"📿", title:"مئة تسبيحة",       desc:"سبّح 100 مرة",                    check: s => (s.totalTasbeeh||0) >= 100},
+  {id:"tasbeeh1000",   icon:"📿", title:"ألف تسبيحة",       desc:"سبّح 1000 مرة",                   check: s => (s.totalTasbeeh||0) >= 1000},
+  {id:"tasbeeh10000",  icon:"💎", title:"عشرة آلاف تسبيحة", desc:"سبّح 10,000 مرة",                 check: s => (s.totalTasbeeh||0) >= 10000},
+  {id:"fav5",          icon:"⭐", title:"جامع المفضلة",     desc:"أضف 5 عناصر للمفضلة",            check: s => (s.favCount||0) >= 5},
+  {id:"fav10",         icon:"⭐", title:"مكتبة شخصية",      desc:"أضف 10 عناصر للمفضلة",           check: s => (s.favCount||0) >= 10},
+  {id:"prayers5",      icon:"🕌", title:"مواظب على الصلاة", desc:"سجّل 5 صلوات في يوم واحد",       check: s => (s.maxPrayersDay||0) >= 5},
+  {id:"asma_view",     icon:"✨", title:"عارف بالله",       desc:"تصفح أسماء الله الحسنى",          check: s => !!s.viewedAsma},
+  {id:"hadith_read",   icon:"📜", title:"طالب علم",         desc:"اقرأ 7 أحاديث مختلفة",            check: s => (s.hadithsRead||0) >= 7},
+];
+
 // ===== State =====
 const DEFAULT_TASBEEH = ["سبحان الله","الحمد لله","الله أكبر","لا إله إلا الله"];
 
@@ -192,6 +361,12 @@ const state = {
   currentReciterIdx: Number(localStorage.getItem("currentReciterIdx") || 0),
   currentDhikrIdx: 0,
   wird: parseJsonSafe("dailyWird", { date: "", done: 0, target: 20 }),
+  achievements: parseJsonSafe("achievements", {}),
+  stats: parseJsonSafe("userStats", {
+    surahsOpened: 0, streak: 0, totalTasbeeh: 0, favCount: 0,
+    maxPrayersDay: 0, viewedAsma: false, hadithsRead: 0,
+    lastReadDate: "", openedSurahs: []
+  }),
 };
 
 function save() {
@@ -281,6 +456,14 @@ function switchTab(tabId) {
   if (tabId === "prayers" && !prayerAutoLocated) {
     prayerAutoLocated = true;
     autoLocatePrayer();
+  }
+  if (tabId === "asmaullah") {
+    state.stats.viewedAsma = true;
+    saveStats();
+    setTimeout(renderAchievements, 100);
+  }
+  if (tabId === "achievements") {
+    renderAchievements();
   }
 }
 
@@ -471,15 +654,214 @@ function updatePrayerReminderFromTimings(timings) {
   el.prayerReminderBanner.textContent = `${prefix} الصلاة القادمة: ${next.name} بعد ${remain}`;
 }
 
+function saveStats() {
+  localStorage.setItem("userStats", JSON.stringify(state.stats));
+}
+
 function updateHeaderStats() {
   if (el.statSurahs) el.statSurahs.textContent = "114";
   const totalTasbeeh = Object.values(state.tasbeehCounts).reduce((a, b) => a + b, 0);
   if (el.statAdhkar) el.statAdhkar.textContent = totalTasbeeh;
   if (el.statFav) el.statFav.textContent = state.favorites.length;
+  const streak = state.stats.streak || 0;
+  if (document.getElementById("statStreak")) document.getElementById("statStreak").textContent = streak;
   const lr = parseJsonSafe("lastRead", null);
   if (el.lastReadText) el.lastReadText.textContent = lr ? `آخر قراءة: سورة ${lr.name} - آية ${lr.ayah || 1}` : "لا توجد قراءة محفوظة";
   if (el.lastRead) el.lastRead.textContent = lr ? `${lr.name} - آية ${lr.ayah || 1}` : "—";
   if (el.dailyMessage) el.dailyMessage.textContent = DAILY_MESSAGES[new Date().getDate() % DAILY_MESSAGES.length];
+}
+
+// ===== Hijri Date =====
+function renderHijriDate() {
+  const el2 = document.getElementById("hijriDateDisplay");
+  const occ = document.getElementById("hijriOccasion");
+  if (!el2) return;
+  // Use prayer API data if available, else estimate
+  const cached = parseJsonSafe("lastHijriDate", null);
+  if (cached && cached.date === new Date().toISOString().slice(0,10)) {
+    el2.textContent = cached.hijri;
+    if (occ && cached.occasion) { occ.textContent = "🌙 " + cached.occasion; occ.style.display = ""; }
+    else if (occ) occ.style.display = "none";
+    return;
+  }
+  // Estimate hijri date
+  const today = new Date();
+  const hijriFormatter = new Intl.DateTimeFormat("ar-SA-u-ca-islamic", {
+    day: "numeric", month: "long", year: "numeric", weekday: "long"
+  });
+  try {
+    const hijriStr = hijriFormatter.format(today);
+    el2.textContent = hijriStr;
+    // Check for occasion
+    const hijriNumFormatter = new Intl.DateTimeFormat("en-u-ca-islamic", {
+      day: "numeric", month: "numeric"
+    });
+    const parts = hijriNumFormatter.formatToParts(today);
+    const day = parts.find(p => p.type === "day")?.value;
+    const month = parts.find(p => p.type === "month")?.value;
+    const key = `${day}-${month}`;
+    const occasion = ISLAMIC_OCCASIONS[key] || "";
+    if (occ && occasion) { occ.textContent = "🌙 " + occasion; occ.style.display = ""; }
+    else if (occ) occ.style.display = "none";
+  } catch {
+    el2.textContent = "—";
+  }
+}
+
+// ===== Hadith of the Day =====
+function renderHadith() {
+  const textEl = document.getElementById("hadithText");
+  const narrEl = document.getElementById("hadithNarrator");
+  if (!textEl) return;
+  // Track how many hadiths read
+  const dayIdx = Math.floor(Date.now() / 86400000) % HADITHS.length;
+  const h = HADITHS[dayIdx];
+  textEl.textContent = h.text;
+  if (narrEl) narrEl.textContent = h.narrator;
+  // Track unique hadiths read
+  const readSet = parseJsonSafe("hadithsReadSet", []);
+  if (!readSet.includes(dayIdx)) {
+    readSet.push(dayIdx);
+    localStorage.setItem("hadithsReadSet", JSON.stringify(readSet));
+    state.stats.hadithsRead = readSet.length;
+    saveStats();
+  }
+}
+
+// ===== Reading Streak =====
+function updateReadingStreak() {
+  const streakEl = document.getElementById("streakCount");
+  const msgEl = document.getElementById("streakMsg");
+  const dotsEl = document.getElementById("streakDots");
+
+  const today = new Date().toISOString().slice(0, 10);
+  const y = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+
+  if (state.stats.lastReadDate !== today) {
+    if (state.stats.lastReadDate === y) state.stats.streak = (state.stats.streak || 0) + 1;
+    else if (!state.stats.lastReadDate) state.stats.streak = Math.max(1, state.stats.streak || 1);
+    else state.stats.streak = 1;
+    state.stats.lastReadDate = today;
+    saveStats();
+  }
+
+  const streak = state.stats.streak || 0;
+  if (streakEl) streakEl.textContent = `${streak}`;
+  if (msgEl) {
+    if (streak >= 30) msgEl.textContent = "🏅 رائع! سلسلة قراءة شهر كامل";
+    else if (streak >= 7) msgEl.textContent = "🔥 ممتاز! سلسلة أسبوع كامل";
+    else if (streak >= 3) msgEl.textContent = "💪 استمر! تقدم جميل";
+    else msgEl.textContent = "ابدأ رحلتك اليومية مع القرآن";
+  }
+  if (dotsEl) {
+    const n = Math.min(7, Math.max(1, streak));
+    dotsEl.innerHTML = Array.from({length: 7}).map((_, i) =>
+      `<span class="streak-dot ${i < n ? "on" : ""}"></span>`
+    ).join("");
+  }
+}
+
+// ===== Asmaul Husna =====
+function renderAsmaList() {
+  const grid = document.getElementById("asmaGrid");
+  if (!grid) return;
+  const q = (document.getElementById("asmaSearch")?.value || "").trim();
+  const list = ALLAH_NAMES.filter(n => !q || n.ar.includes(q) || n.meaning.includes(q) || String(n.num).includes(q));
+  grid.innerHTML = list.map(n => `
+    <div class="asma-card">
+      <div class="asma-num">${n.num}</div>
+      <div class="asma-name">${n.ar}</div>
+      <div class="asma-meaning">${n.meaning}</div>
+    </div>
+  `).join("");
+}
+
+function initAsmaSection() {
+  const search = document.getElementById("asmaSearch");
+  if (search) search.addEventListener("input", renderAsmaList);
+  renderAsmaList();
+}
+
+// ===== Daily Prayer Log =====
+function todayKey() { return new Date().toISOString().slice(0,10); }
+
+function getPrayerLog() {
+  const key = todayKey();
+  const all = parseJsonSafe("prayerLog", {});
+  if (!all[key]) all[key] = {Fajr:false,Dhuhr:false,Asr:false,Maghrib:false,Isha:false};
+  return { all, key, day: all[key] };
+}
+
+function renderPrayerLog() {
+  const card = document.getElementById("prayerLogCard");
+  const list = document.getElementById("prayerLogList");
+  const dateEl = document.getElementById("prayerLogDate");
+  const fill = document.getElementById("prayerLogFill");
+  const msg = document.getElementById("prayerLogMsg");
+  if (!card || !list) return;
+
+  const { all, key, day } = getPrayerLog();
+  card.style.display = "";
+  if (dateEl) dateEl.textContent = key;
+
+  const prayers = [
+    ["Fajr","الفجر","🌅"],
+    ["Dhuhr","الظهر","🌤️"],
+    ["Asr","العصر","🌇"],
+    ["Maghrib","المغرب","🌆"],
+    ["Isha","العشاء","🌙"]
+  ];
+
+  list.innerHTML = prayers.map(([k, n, icon]) => `
+    <label class="prayer-log-item">
+      <input type="checkbox" data-prayer="${k}" ${day[k] ? "checked" : ""}/>
+      <span>${icon} ${n}</span>
+    </label>
+  `).join("");
+
+  list.querySelectorAll("input[type='checkbox']").forEach(ch => {
+    ch.addEventListener("change", () => {
+      day[ch.dataset.prayer] = ch.checked;
+      localStorage.setItem("prayerLog", JSON.stringify(all));
+      renderPrayerLog();
+      renderAchievements();
+    });
+  });
+
+  const done = Object.values(day).filter(Boolean).length;
+  const pct = Math.round((done / 5) * 100);
+  if (fill) fill.style.width = pct + "%";
+  if (msg) msg.textContent = `أديت ${done} / 5 صلوات اليوم (${pct}%)`;
+
+  state.stats.maxPrayersDay = Math.max(state.stats.maxPrayersDay || 0, done);
+  saveStats();
+}
+
+// ===== Achievements =====
+function renderAchievements() {
+  const grid = document.getElementById("achievementsGrid");
+  const list = document.getElementById("achievementsList");
+  const total = document.getElementById("achievementsTotal");
+
+  state.stats.totalTasbeeh = Object.values(state.tasbeehCounts).reduce((a,b)=>a+b,0);
+  state.stats.favCount = state.favorites.length;
+  saveStats();
+
+  let unlocked = 0;
+  const cards = ACHIEVEMENT_DEFS.map(a => {
+    const ok = a.check(state.stats);
+    if (ok) unlocked += 1;
+    return `<div class="ach-card ${ok ? "ok" : ""}">
+      <div class="ach-icon">${a.icon}</div>
+      <div class="ach-title">${a.title}</div>
+      <div class="ach-desc">${a.desc}</div>
+      <div class="ach-state">${ok ? "✅ مكتمل" : "🔒 قيد التقدم"}</div>
+    </div>`;
+  }).join("");
+
+  if (grid) grid.innerHTML = cards;
+  if (list) list.innerHTML = cards.slice(0, 1200);
+  if (total) total.textContent = `${unlocked} / ${ACHIEVEMENT_DEFS.length}`;
 }
 
 // ===== Reciters =====
@@ -857,13 +1239,66 @@ document.querySelectorAll(".fav-tab-btn").forEach(btn => {
   });
 });
 
-// ===== Continue Reading =====
+// ===== Bookmark Helpers (index page) =====
+function getBookmarkForSurah(surahNum) {
+  return parseJsonSafe(`bookmark_${surahNum}`, null);
+}
+
+function updateContinueReadBtn() {
+  const btn = document.getElementById("continueReadBtn");
+  if (!btn) return;
+  // Find bookmark for lastRead surah first, then any bookmark
+  const lr = parseJsonSafe("lastRead", null);
+  let bm = null;
+  if (lr && lr.number) bm = getBookmarkForSurah(lr.number);
+  // If no bookmark for lastRead surah, scan all surahs
+  if (!bm) {
+    for (let i = 1; i <= 114; i++) {
+      const b = getBookmarkForSurah(i);
+      if (b) { bm = b; break; }
+    }
+  }
+  if (bm) {
+    btn.innerHTML = "📌 الرجوع للعلامة";
+    btn.title = `علامة في سورة ${bm.surahName} — آية ${bm.ayah}`;
+    btn.classList.add("bookmark-btn");
+    btn.classList.remove("primary");
+  } else if (lr && lr.number) {
+    btn.innerHTML = "📖 متابعة القراءة";
+    btn.title = `سورة ${lr.name} — آية ${lr.ayah || 1}`;
+    btn.classList.remove("bookmark-btn");
+    btn.classList.add("primary");
+  } else {
+    btn.innerHTML = "📖 ابدأ القراءة";
+    btn.title = "";
+    btn.classList.remove("bookmark-btn");
+    btn.classList.add("primary");
+  }
+}
+
+// ===== Continue Reading (Bookmark-first) =====
 const continueReadBtn = document.getElementById("continueReadBtn");
 if (continueReadBtn) {
   continueReadBtn.addEventListener("click", () => {
+    // Find bookmark for lastRead surah first, then any bookmark
     const lr = parseJsonSafe("lastRead", null);
-    if (lr && lr.number) window.location.href = `surah.html?surah=${lr.number}&ayah=${lr.ayah||1}&reciter=${lr.reciterIdx||state.currentReciterIdx}`;
-    else switchTab("quran");
+    let bm = null;
+    if (lr && lr.number) bm = getBookmarkForSurah(lr.number);
+    if (!bm) {
+      for (let i = 1; i <= 114; i++) {
+        const b = getBookmarkForSurah(i);
+        if (b) { bm = b; break; }
+      }
+    }
+    if (bm) {
+      // Go directly to bookmark
+      window.location.href = `surah.html?surah=${bm.surahNumber}&ayah=${bm.ayah}&reciter=${lr?.reciterIdx || state.currentReciterIdx}`;
+    } else if (lr && lr.number) {
+      // No bookmark — go to lastRead
+      window.location.href = `surah.html?surah=${lr.number}&ayah=${lr.ayah || 1}&reciter=${lr.reciterIdx || state.currentReciterIdx}`;
+    } else {
+      switchTab("quran");
+    }
   });
 }
 
@@ -934,20 +1369,74 @@ function showContinueReadingPopup() {
   sessionStorage.setItem("continuePopupShown", "1");
 
   const popup = document.getElementById("continueReadingPopup");
-  const surahEl = document.getElementById("continuePopupSurah");
-  const yesBtn = document.getElementById("continuePopupYes");
-  const noBtn = document.getElementById("continuePopupNo");
   if (!popup) return;
 
-  if (surahEl) surahEl.textContent = `سورة ${lr.name} — آية ${lr.ayah || 1}`;
+  const surahEl = document.getElementById("continuePopupSurah");
+  const titleEl = document.getElementById("continuePopupTitle");
+  const msgEl   = document.getElementById("continuePopupMsg");
+  const iconEl  = document.getElementById("continuePopupIcon");
+  const yesBtn  = document.getElementById("continuePopupYes");
+  const bmBtn   = document.getElementById("continuePopupBookmark");
+  const noBtn   = document.getElementById("continuePopupNo");
+
+  // Check for bookmark on the lastRead surah
+  const bm = getBookmarkForSurah(lr.number);
+  const hasBookmark = !!bm;
+  const lastReadAyah = lr.ayah || 1;
+  const bookmarkAyah = bm ? bm.ayah : null;
+
+  // Determine if bookmark and lastRead are at different positions
+  const differentPositions = hasBookmark && bookmarkAyah !== lastReadAyah;
+
+  if (hasBookmark) {
+    // Has bookmark → show both options
+    if (iconEl) iconEl.textContent = "📌";
+    if (titleEl) titleEl.textContent = "استئناف القراءة";
+    if (msgEl) msgEl.textContent = `لديك علامة محفوظة عند الآية ${bookmarkAyah}. اختر كيف تريد المتابعة:`;
+    if (surahEl) surahEl.textContent = `سورة ${lr.name}`;
+    // Show bookmark button
+    if (bmBtn) {
+      bmBtn.style.display = "inline-flex";
+      bmBtn.innerHTML = `📌 الذهاب للعلامة (آية ${bookmarkAyah})`;
+    }
+    // Show lastRead button only if different position
+    if (yesBtn) {
+      if (differentPositions) {
+        yesBtn.style.display = "inline-flex";
+        yesBtn.innerHTML = `📖 إكمال القراءة (آية ${lastReadAyah})`;
+      } else {
+        yesBtn.style.display = "none";
+      }
+    }
+  } else {
+    // No bookmark → show only continue reading
+    if (iconEl) iconEl.textContent = "📖";
+    if (titleEl) titleEl.textContent = "متابعة القراءة";
+    if (msgEl) msgEl.textContent = "هل تريد متابعة قراءتك من حيث توقفت؟";
+    if (surahEl) surahEl.textContent = `سورة ${lr.name} — آية ${lastReadAyah}`;
+    if (bmBtn) bmBtn.style.display = "none";
+    if (yesBtn) {
+      yesBtn.style.display = "inline-flex";
+      yesBtn.innerHTML = "📖 إكمال القراءة";
+    }
+  }
+
   popup.style.display = "flex";
 
   function closePopup() { popup.style.display = "none"; }
 
+  // Bookmark button → go to bookmark
+  if (bmBtn) bmBtn.onclick = () => {
+    closePopup();
+    window.location.href = `surah.html?surah=${lr.number}&ayah=${bookmarkAyah}&reciter=${lr.reciterIdx || state.currentReciterIdx}`;
+  };
+
+  // Yes button → go to lastRead position
   if (yesBtn) yesBtn.onclick = () => {
     closePopup();
-    window.location.href = `surah.html?surah=${lr.number}&ayah=${lr.ayah||1}&reciter=${lr.reciterIdx||state.currentReciterIdx}`;
+    window.location.href = `surah.html?surah=${lr.number}&ayah=${lastReadAyah}&reciter=${lr.reciterIdx || state.currentReciterIdx}`;
   };
+
   if (noBtn) noBtn.onclick = closePopup;
   popup.addEventListener("click", e => { if (e.target === popup) closePopup(); });
 }
@@ -1072,6 +1561,14 @@ async function boot() {
   renderQuickAdhkar();
   renderTasbeehGrid();
   initNotificationTip();
+  // ===== New Feature Renders =====
+  renderHijriDate();
+  renderHadith();
+  updateReadingStreak();
+  initAsmaSection();
+  renderPrayerLog();
+  renderAchievements();
+  updateContinueReadBtn();
   await loadAdhkar();
   // Show continue reading popup after splash finishes
   const splashAlreadyDone = sessionStorage.getItem("splashShownSession") === "1";

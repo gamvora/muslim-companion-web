@@ -151,7 +151,9 @@
       <button class="nav-btn" data-tab="prayers"><span class="nav-icon">🕌</span> مواقيت الصلاة</button>
       <button class="nav-btn" data-tab="tasbeeh"><span class="nav-icon">📿</span> المسبحة</button>
       <button class="nav-btn" data-tab="qibla"><span class="nav-icon">🧭</span> القبلة</button>
+      <button class="nav-btn" data-tab="asmaullah"><span class="nav-icon">✨</span> أسماء الله</button>
       <button class="nav-btn" data-tab="favorites"><span class="nav-icon">⭐</span> المحفوظات</button>
+      <button class="nav-btn" data-tab="achievements"><span class="nav-icon">🏆</span> الإنجازات</button>
       <button class="nav-btn" data-tab="settings"><span class="nav-icon">⚙️</span> الإعدادات</button>
     </aside>
 
@@ -164,8 +166,9 @@
             <h3>ملخص سريع</h3>
             <div class="stats">
               <div class="stat-box"><span id="statSurahs">114</span><small>سورة</small></div>
-              <div class="stat-box"><span id="statAdhkar">0</span><small>ذكر اليوم</small></div>
+              <div class="stat-box"><span id="statAdhkar">0</span><small>تسبيحة</small></div>
               <div class="stat-box"><span id="statFav">0</span><small>المحفوظات</small></div>
+              <div class="stat-box"><span id="statStreak">0</span><small>🔥 يوم</small></div>
             </div>
             <p class="muted" style="margin-top:12px">آخر قراءة: <strong id="lastRead">—</strong></p>
           </article>
@@ -178,6 +181,38 @@
             </div>
           </article>
         </div>
+
+        <!-- Hijri Date + Hadith -->
+        <div class="grid two" style="margin-top:0">
+          <article class="card hijri-card">
+            <div class="hijri-card-header">
+              <span class="hijri-icon">📅</span>
+              <h3>التاريخ الهجري</h3>
+            </div>
+            <div id="hijriDateDisplay" class="hijri-date-display">—</div>
+            <div id="hijriOccasion" class="hijri-occasion"></div>
+          </article>
+          <article class="card hadith-card">
+            <div class="hadith-card-header">
+              <span class="hadith-icon">📜</span>
+              <h3>حديث اليوم</h3>
+            </div>
+            <div id="hadithText" class="hadith-text">جاري التحميل...</div>
+            <div id="hadithNarrator" class="hadith-narrator"></div>
+          </article>
+        </div>
+
+        <!-- Reading Streak -->
+        <article class="card streak-card">
+          <div class="streak-header">
+            <div>
+              <h3>🔥 سلسلة القراءة اليومية</h3>
+              <div id="streakMsg" class="streak-msg">ابدأ قراءتك اليوم!</div>
+            </div>
+            <div id="streakCount" class="streak-count">0</div>
+          </div>
+          <div id="streakDots" class="streak-dots"></div>
+        </article>
 
       </section>
 
@@ -239,6 +274,19 @@
           <div id="prayerList" class="list" style="margin-top:14px"></div>
           <div id="prayerLoading" class="muted" style="margin-top:8px;text-align:center"></div>
 
+          <!-- Prayer Log -->
+          <div id="prayerLogCard" class="prayer-log-card" style="display:none">
+            <div class="prayer-log-header">
+              <h3>✅ سجل صلواتي اليوم</h3>
+              <div id="prayerLogDate" class="prayer-log-date"></div>
+            </div>
+            <div id="prayerLogList" class="prayer-log-list"></div>
+            <div id="prayerLogProgress" class="prayer-log-progress-wrap">
+              <div id="prayerLogFill" class="prayer-log-progress-fill"></div>
+            </div>
+            <div id="prayerLogMsg" class="prayer-log-msg"></div>
+          </div>
+
           <!-- Notification Tip -->
           <div id="notificationTip" class="notification-tip" style="display:none">
             <div class="notification-tip-icon">🔔</div>
@@ -278,6 +326,18 @@
         </div>
       </section>
 
+      <!-- أسماء الله الحسنى -->
+      <section id="asmaullah" class="tab">
+        <div class="card">
+          <div class="row between" style="margin-bottom:8px">
+            <h2>✨ أسماء الله الحسنى</h2>
+            <input id="asmaSearch" type="text" placeholder="ابحث عن اسم..." style="max-width:200px" />
+          </div>
+          <p class="muted" style="margin-bottom:18px;text-align:center;font-size:16px;font-weight:600">﴿ وَلِلَّهِ الْأَسْمَاءُ الْحُسْنَىٰ فَادْعُوهُ بِهَا ﴾</p>
+          <div id="asmaGrid" class="asma-grid"></div>
+        </div>
+      </section>
+
       <section id="favorites" class="tab">
         <div class="card">
           <div class="row between" style="margin-bottom:16px">
@@ -289,6 +349,17 @@
             </div>
           </div>
           <div id="favoritesList"></div>
+        </div>
+      </section>
+
+      <!-- الإنجازات -->
+      <section id="achievements" class="tab">
+        <div class="card">
+          <div class="row between" style="margin-bottom:16px">
+            <h2>🏆 الإنجازات والشارات</h2>
+            <div id="achievementsTotal" class="achievements-total"></div>
+          </div>
+          <div id="achievementsGrid" class="achievements-grid"></div>
         </div>
       </section>
 
@@ -363,12 +434,13 @@
   <div id="continueReadingPopup" class="continue-popup" style="display:none">
     <div class="continue-popup-overlay"></div>
     <div class="continue-popup-card">
-      <div class="continue-popup-icon">📖</div>
-      <h3>متابعة القراءة</h3>
+      <div class="continue-popup-icon" id="continuePopupIcon">📖</div>
+      <h3 id="continuePopupTitle">متابعة القراءة</h3>
       <div class="continue-popup-surah" id="continuePopupSurah">—</div>
-      <p class="continue-popup-msg">هل تريد متابعة قراءتك من حيث توقفت؟</p>
+      <p class="continue-popup-msg" id="continuePopupMsg">هل تريد متابعة قراءتك من حيث توقفت؟</p>
       <div class="continue-popup-btns">
-        <button id="continuePopupYes" class="btn primary">📖 تابع القراءة</button>
+        <button id="continuePopupBookmark" class="btn bookmark-btn" style="display:none">📌 الذهاب للعلامة</button>
+        <button id="continuePopupYes" class="btn primary">📖 إكمال القراءة</button>
         <button id="continuePopupNo" class="btn">لاحقاً</button>
       </div>
     </div>

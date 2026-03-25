@@ -85,8 +85,122 @@ const el = {
   toggleFullText2: document.getElementById("toggleFullText2"),
   readerFocusModeBtn: document.getElementById("readerFocusModeBtn"),
   readerRestartBtn: document.getElementById("readerRestartBtn"),
-  readerRepeatBtn: document.getElementById("readerRepeatBtn")
+  readerRepeatBtn: document.getElementById("readerRepeatBtn"),
+  readerBookmarkBtn: document.getElementById("readerBookmarkBtn"),
+  bookmarkIndicator: document.getElementById("bookmarkIndicator"),
+  bookmarkIndicatorText: document.getElementById("bookmarkIndicatorText"),
+  bookmarkIndicatorGoBtn: document.getElementById("bookmarkIndicatorGoBtn")
 };
+
+// ===================================================================
+// ========================= BOOKMARK SYSTEM =========================
+// ===================================================================
+
+function getBookmark(surahNum) {
+  try {
+    const raw = localStorage.getItem("bookmark_" + surahNum);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch (_) { return null; }
+}
+
+function setBookmark(surahNum, surahName, ayahNum, ayahText) {
+  try {
+    const data = {
+      surahNumber: surahNum,
+      surahName: surahName,
+      ayah: ayahNum,
+      ayahText: ayahText || "",
+      savedAt: new Date().toISOString()
+    };
+    localStorage.setItem("bookmark_" + surahNum, JSON.stringify(data));
+    return data;
+  } catch (_) { return null; }
+}
+
+function removeBookmark(surahNum) {
+  try { localStorage.removeItem("bookmark_" + surahNum); } catch (_) {}
+}
+
+function renderBookmarkIndicator() {
+  const bm = getBookmark(surahNumber);
+  const btn = el.readerBookmarkBtn;
+  const indicator = el.bookmarkIndicator;
+  const indicatorText = el.bookmarkIndicatorText;
+  const goBtn = el.bookmarkIndicatorGoBtn;
+
+  if (bm) {
+    // Button shows "bookmarked" state
+    if (btn) {
+      btn.classList.add("bookmarked");
+      btn.innerHTML = "📌 تم الحفظ";
+      btn.title = `علامة عند الآية ${bm.ayah}`;
+    }
+    // Show indicator bar
+    if (indicator) {
+      indicator.style.display = "flex";
+      if (indicatorText) {
+        indicatorText.textContent = `لديك علامة محفوظة عند الآية ${bm.ayah} من سورة ${bm.surahName}`;
+      }
+    }
+    // Wire go button
+    if (goBtn) {
+      goBtn.onclick = () => {
+        const targetIdx = Math.max(0, Math.min(state.ayahs.length - 1, bm.ayah - 1));
+        setActiveAyah(targetIdx);
+        seekAudioToAyah(targetIdx);
+        // Scroll to ayah in full text if visible
+        const span = document.getElementById("span-" + targetIdx);
+        if (span) span.scrollIntoView({ behavior: "smooth", block: "center" });
+        // Highlight bookmarked span briefly
+        document.querySelectorAll(".bookmarked-span").forEach(s => s.classList.remove("bookmarked-span"));
+        if (span) {
+          span.classList.add("bookmarked-span");
+          setTimeout(() => span.classList.remove("bookmarked-span"), 3000);
+        }
+      };
+    }
+  } else {
+    // No bookmark
+    if (btn) {
+      btn.classList.remove("bookmarked");
+      btn.innerHTML = "📌 وضع علامة";
+      btn.title = "حفظ موضع القراءة الحالي";
+    }
+    if (indicator) indicator.style.display = "none";
+  }
+}
+
+// Bookmark button click handler
+if (el.readerBookmarkBtn) {
+  el.readerBookmarkBtn.addEventListener("click", () => {
+    const bm = getBookmark(surahNumber);
+    if (bm) {
+      // Already bookmarked → remove it
+      removeBookmark(surahNumber);
+      renderBookmarkIndicator();
+      const old = el.readerBookmarkBtn.innerHTML;
+      el.readerBookmarkBtn.innerHTML = "🗑 تمت الإزالة";
+      setTimeout(() => renderBookmarkIndicator(), 1400);
+    } else {
+      // Set new bookmark at current ayah
+      const ayah = state.ayahs[state.currentIdx];
+      const surahName = SURAHS[surahNumber - 1] || `سورة ${surahNumber}`;
+      const ayahNum = ayah?.numberInSurah || 1;
+      const ayahText = ayah?.text || "";
+      setBookmark(surahNumber, surahName, ayahNum, ayahText);
+      renderBookmarkIndicator();
+      // Visual feedback
+      const old = el.readerBookmarkBtn.innerHTML;
+      el.readerBookmarkBtn.innerHTML = "✅ تم الحفظ!";
+      setTimeout(() => renderBookmarkIndicator(), 1400);
+    }
+  });
+}
+
+// ===================================================================
+// ====================== END BOOKMARK SYSTEM ========================
+// ===================================================================
 
 const tafsirCache = {
   byAyah: new Map(),
@@ -1164,6 +1278,9 @@ async function boot() {
   await loadSurahText();
   await loadAyahTimingSegments();
   loadContinuousAudio(false);
+
+  // Render bookmark indicator after surah text is loaded
+  renderBookmarkIndicator();
 
   // If resuming from a specific ayah (initAyah > 1), seek audio to that ayah once ready
   if (initAyah > 1 && state.ayahSegmentsSec.length > 0) {
